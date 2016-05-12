@@ -1,0 +1,81 @@
+{
+  "stateId": "340279d0-350c-4886-9af8-86ebeda0bd71",
+  "serviceElementId": "e3cae435-00b9-4a93-a95f-bd5861f702ef",
+  "token": null,
+  "authorization": null,
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Host",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "smtp.test.com",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Port",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "587",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Username",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "test@example.com",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Password",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "password",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Transport",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "tls",
+      "contentType": null,
+      "objectData": null
+    }
+  ],
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "resourcePath": "",
+  "resourceFile": "",
+  "listFilter": {
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": null,
+    "limit": 10,
+    "offset": 0,
+    "search": null
+  }
+}

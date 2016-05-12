@@ -1,0 +1,226 @@
+{
+  "joinPlayerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?join=340279d0-350c-4886-9af8-86ebeda0bd71",
+  "playerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?flow-id=6b987fed-ffda-4b92-842b-a0010b3cac0c",
+  "uri": "https://service.example.com/api/email/1/actions/email",
+  "inputs": [
+    {
+      "valueElementId": "7881ad71-3a0e-42f9-8225-fa5905ccf1a8",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Body",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "email text body",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": "83a252f0-c16f-49ba-b323-3a0b9be8302b",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "From",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": null,
+      "contentType": "ContentObject",
+      "objectData": [
+        {
+          "internalId": "8c392873-1cb8-4988-8d93-c3943ba8ebdd",
+          "externalId": "8c392873-1cb8-4988-8d93-c3943ba8ebdd",
+          "developerName": "Contact",
+          "typeElementId": "01932417-1e86-46e9-a2ef-c8260c8df65b",
+          "order": 0,
+          "properties": [
+            {
+              "typeElementPropertyId": "8d5cb3f5-467d-4323-afb0-566f36e90040",
+              "developerName": "Email",
+              "contentValue": "test@manywho.com",
+              "contentType": "ContentString",
+              "contentFormat": null,
+              "objectData": null
+            },
+            {
+              "typeElementPropertyId": "c25a7767-1ff9-445e-9631-5de2d5497e1c",
+              "developerName": "Name",
+              "contentValue": "Test ManyWho",
+              "contentType": "ContentString",
+              "contentFormat": null,
+              "objectData": null
+            }
+          ],
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "valueElementId": "7881ad71-3a0e-42f9-8225-fa5905ccf1a8",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "HTML Body",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "<html><title><body>Hello World!</body></title></html>",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": "7881ad71-3a0e-42f9-8225-fa5905ccf1a8",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Subject",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "Test Subject",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": "4cc3f726-7c69-4545-8faf-b50e04a8ed49",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "To",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": null,
+      "contentType": "ContentList",
+      "objectData": [
+        {
+          "internalId": "3b27aa58-5b42-44f9-97f0-a6675dd38226",
+          "externalId": "3b27aa58-5b42-44f9-97f0-a6675dd38226",
+          "developerName": "Contact",
+          "typeElementId": "01932417-1e86-46e9-a2ef-c8260c8df65b",
+          "order": 0,
+          "properties": [
+            {
+              "typeElementPropertyId": "8d5cb3f5-467d-4323-afb0-566f36e90040",
+              "developerName": "Email",
+              "contentValue": "to@manywho.com",
+              "contentType": "ContentString",
+              "contentFormat": null,
+              "objectData": null
+            },
+            {
+              "typeElementPropertyId": "c25a7767-1ff9-445e-9631-5de2d5497e1c",
+              "developerName": "Name",
+              "contentValue": "Test To",
+              "contentType": "ContentString",
+              "contentFormat": null,
+              "objectData": null
+            }
+          ],
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "valueElementId": "4cc3f726-7c69-4545-8faf-b50e04a8ed49",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "To (BCC)",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": null,
+      "contentType": "ContentList",
+      "objectData": []
+    },
+    {
+      "valueElementId": "4cc3f726-7c69-4545-8faf-b50e04a8ed49",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "To (CC)",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": null,
+      "contentType": "ContentList",
+      "objectData": null
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "05b326b8-fd07-4909-80f1-7e1e1ecce6bf",
+      "developerName": "go",
+      "label": "go",
+      "order": 0
+    }
+  ],
+  "token": "51846b52-e9eb-4e6c-9f27-e2f6dc0213ba",
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+  "stateId": "340279d0-350c-4886-9af8-86ebeda0bd71",
+  "callbackUri": "https://staging.manywho.com/api/run/1/response",
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Host",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "smtp.example.com",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Port",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "587",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Username",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "test@mailaccount.com",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Password",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "password",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Transport",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "tls",
+      "contentType": null,
+      "objectData": null
+    }
+  ],
+  "authorization": {
+    "serviceElementId": "2bef9843-70f5-4852-9426-7049e31a7db4",
+    "globalAuthenticationType": "PUBLIC",
+    "streamBehaviourType": "NONE",
+    "groups": null,
+    "users": null,
+    "locations": null
+  },
+  "annotations": null,
+  "attributes": null
+}

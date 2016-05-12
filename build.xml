@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project name="service" basedir="." default="generate-properties">
+    <target name="generate-properties" description="Generate the properties file from the given system properties">
+        <propertyfile file="src/main/resources/service.properties">
+            <entry key="s3.bucket_name" value="${s3.bucket_name}"/>
+            <entry key="s3.aws_access_key_id" value="${s3.aws_access_key_id}"/>
+            <entry key="s3.aws_secret_access_key" value="${s3.aws_secret_access_key}"/>
+        </propertyfile>
+    </target>
+</project>

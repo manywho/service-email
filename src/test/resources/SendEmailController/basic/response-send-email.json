@@ -1,0 +1,13 @@
+{
+  "token": "51846b52-e9eb-4e6c-9f27-e2f6dc0213ba",
+  "tenantId": null,
+  "culture": null,
+  "annotations": null,
+  "invokeType": "FORWARD",
+  "waitMessage": null,
+  "outputs": null,
+  "selectedOutcomeId": null,
+  "rootFaults": null,
+  "valueFaults": null,
+  "mode": null
+}
