@@ -3,9 +3,7 @@ package com.manywho.services.email.types;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.services.annotations.TypeElement;
 import com.manywho.sdk.services.annotations.TypeProperty;
-import com.sun.istack.internal.NotNull;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @TypeElement(name = Contact.NAME)
 public class Contact {
