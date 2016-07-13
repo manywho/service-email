@@ -5,6 +5,7 @@ import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.controllers.AbstractController;
 import com.manywho.services.email.actions.SendEmail;
+import com.manywho.services.email.actions.SendEmailDebug;
 import com.manywho.services.email.entities.Configuration;
 import com.manywho.services.email.managers.EmailManager;
 import javax.inject.Inject;
@@ -32,6 +33,17 @@ public class SendEmailController extends AbstractController {
         SendEmail mailParameters = this.parseInputs(serviceRequest,  SendEmail.class);
 
         emailManager.sendEmailSimple(configuration, mailParameters);
+
+        return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
+    }
+
+    @Path("/email-debug")
+    @POST
+    public ServiceResponse sendEmailDebug(ServiceRequest serviceRequest) throws Exception {
+        Configuration configuration = this.parseConfigurationValues(serviceRequest, Configuration.class);
+        SendEmailDebug mailParameters = this.parseInputs(serviceRequest,  SendEmailDebug.class);
+
+        emailManager.sendEmailDebug(configuration, mailParameters);
 
         return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
     }

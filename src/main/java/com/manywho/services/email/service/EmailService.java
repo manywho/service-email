@@ -2,6 +2,7 @@ package com.manywho.services.email.service;
 
 import com.manywho.sdk.services.types.system.$File;
 import com.manywho.services.email.actions.SendEmail;
+import com.manywho.services.email.actions.SendEmailDebug;
 import com.manywho.services.email.managers.FileManager;
 import com.manywho.services.email.types.Contact;
 import org.codemonkey.simplejavamail.Email;
@@ -50,6 +51,18 @@ public class EmailService {
         }
 
         email.setFromAddress(sendEmail.getFrom().getName(), sendEmail.getFrom().getEmail());
+        email.setSubject(sendEmail.getSubject());
+        email.setText(sendEmail.getBody());
+
+        return email;
+    }
+
+    public Email createEmailDebug(SendEmailDebug sendEmail) {
+        final Email email = new Email();
+
+        email.addRecipient(sendEmail.getTo(), sendEmail.getTo(), Message.RecipientType.TO);
+        email.setFromAddress(sendEmail.getFrom(), sendEmail.getFrom());
+
         email.setSubject(sendEmail.getSubject());
         email.setText(sendEmail.getBody());
 

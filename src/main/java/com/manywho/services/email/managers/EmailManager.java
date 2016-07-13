@@ -2,6 +2,7 @@ package com.manywho.services.email.managers;
 
 import com.manywho.sdk.utils.ThreadUtils;
 import com.manywho.services.email.actions.SendEmail;
+import com.manywho.services.email.actions.SendEmailDebug;
 import com.manywho.services.email.entities.Configuration;
 import com.manywho.services.email.factories.MailerFactory;
 import com.manywho.services.email.service.EmailService;
@@ -31,5 +32,11 @@ public class EmailManager {
             // after the email is sent I can remove the attachments from persistence server
             fileManager.deleteFiles(sendEmail.getFiles());
         });
+    }
+
+    public void sendEmailDebug(Configuration configuration, SendEmailDebug sendEmail) {
+
+        Mailer mailer = mailerFactory.createMailer(configuration);
+        emailService.sendEmail(mailer, emailService.createEmailDebug(sendEmail));
     }
 }
