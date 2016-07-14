@@ -5,11 +5,11 @@ import com.manywho.sdk.services.annotations.Action;
 import com.manywho.sdk.services.annotations.ActionInput;
 import javax.validation.constraints.NotNull;
 
-@Action(name = "Send Email Debug", summary = "Send an Email for Debug", uriPart = "actions/email-debug")
-public class SendEmailDebug {
+@Action(name = "Send Email Simple", summary = "Send an Email simple", uriPart = "actions/email-simple")
+public class SendEmailSimple {
 
     @NotNull(message = "A From email is required when sending an email")
-    @ActionInput(name = "From", contentType = ContentType.String, required = true)
+    @ActionInput(name = "From", contentType = ContentType.String, required = false)
     private String from;
 
     @NotNull()

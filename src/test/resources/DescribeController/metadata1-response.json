@@ -118,13 +118,13 @@
             "ordinal": 0,
             "required": false
         }],
-        "viewMessageAction": false,
         "serviceOutputs": [],
+        "viewMessageAction": false,
         "serviceActionOutcomes": null
     }, {
-        "uriPart": "actions/email-debug",
-        "developerName": "Send Email Debug",
-        "developerSummary": "Send an Email for Debug",
+        "uriPart": "actions/email-simple",
+        "developerName": "Send Email Simple",
+        "developerSummary": "Send an Email simple",
         "serviceInputs": [{
             "developerName": "Body",
             "contentValue": null,
@@ -138,7 +138,7 @@
             "contentType": "ContentString",
             "typeElementDeveloperName": null,
             "ordinal": 0,
-            "required": true
+            "required": false
         }, {
             "developerName": "Subject",
             "contentValue": null,
@@ -154,8 +154,8 @@
             "ordinal": 0,
             "required": true
         }],
-        "viewMessageAction": false,
         "serviceOutputs": [],
+        "viewMessageAction": false,
         "serviceActionOutcomes": null
     }],
     "install": {

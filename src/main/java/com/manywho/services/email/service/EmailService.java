@@ -2,15 +2,20 @@ package com.manywho.services.email.service;
 
 import com.manywho.sdk.services.types.system.$File;
 import com.manywho.services.email.actions.SendEmail;
-import com.manywho.services.email.actions.SendEmailDebug;
+import com.manywho.services.email.actions.SendEmailSimple;
 import com.manywho.services.email.managers.FileManager;
 import com.manywho.services.email.types.Contact;
+import org.apache.commons.lang3.StringUtils;
 import org.codemonkey.simplejavamail.Email;
 import org.codemonkey.simplejavamail.Mailer;
+
 import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class EmailService {
 
@@ -57,11 +62,19 @@ public class EmailService {
         return email;
     }
 
-    public Email createEmailDebug(SendEmailDebug sendEmail) {
+    public Email createEmailSimple(SendEmailSimple sendEmail, String defaultFrom) {
         final Email email = new Email();
+        List<String> toList = new ArrayList<>(Arrays.asList(sendEmail.getTo().split(";")));
 
-        email.addRecipient(sendEmail.getTo(), sendEmail.getTo(), Message.RecipientType.TO);
-        email.setFromAddress(sendEmail.getFrom(), sendEmail.getFrom());
+        for (String to:toList) {
+            email.addRecipient(sendEmail.getTo(), to, Message.RecipientType.TO);
+        }
+
+        if(StringUtils.isEmpty(sendEmail.getFrom())) {
+            email.setFromAddress(sendEmail.getFrom(), defaultFrom);
+        }else {
+            email.setFromAddress(sendEmail.getFrom(), sendEmail.getFrom());
+        }
 
         email.setSubject(sendEmail.getSubject());
         email.setText(sendEmail.getBody());
