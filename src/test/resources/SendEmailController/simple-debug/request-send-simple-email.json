@@ -1,0 +1,139 @@
+{
+  "joinPlayerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?join=345f0642-2c7a-4c49-bf2f-2d69ece24707&mode=DEBUG",
+  "playerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?flow-id=24045d3d-20dd-4f7c-9728-ce42dda09862&mode=DEBUG",
+  "uri": "https://manywho-ex2.ngrok.io/api/email/1/actions/email-simple",
+  "inputs": [
+    {
+      "valueElementId": "0ca9286c-3b1e-44b9-ba2a-4a50560aa1ef",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Body",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "Email body",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": "0ca9286c-3b1e-44b9-ba2a-4a50560aa1ef",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "From",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "test@mailaccount.com",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": "91e637ea-0679-4713-90e3-1f8cabfe1e9a",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Subject",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "Email subject",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": "aa63b321-5002-431c-87ba-4000397c7435",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "To",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "test1@mailaccount.com;test2@mailaccount.com",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "b09084db-ca9f-4c41-9c8f-c0ad7acdb87f",
+      "developerName": "go",
+      "label": "",
+      "order": 0
+    }
+  ],
+  "token": "247c01de-3adc-49be-a33e-8223b49658de",
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+  "stateId": "345f0642-2c7a-4c49-bf2f-2d69ece24707",
+  "callbackUri": "https://flow.manywho.com/api/run/1/response",
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Host",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "smtp.gmail.com",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Port",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "587",
+      "contentType": "ContentNumber",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Username",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "test@mailaccount.com",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Password",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "password",
+      "contentType": "ContentPassword",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Transport",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "tls",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "authorization": {
+    "serviceElementId": "b02399ec-68fa-4ba5-9fb9-d8df1ab0027e",
+    "globalAuthenticationType": "PUBLIC",
+    "streamBehaviourType": "NONE",
+    "groups": null,
+    "users": null,
+    "locations": null
+  },
+  "annotations": null,
+  "attributes": null
+}
