@@ -6,8 +6,8 @@ import com.manywho.services.email.actions.SendEmailSimple;
 import com.manywho.services.email.managers.FileManager;
 import com.manywho.services.email.types.Contact;
 import org.apache.commons.lang3.StringUtils;
-import org.codemonkey.simplejavamail.Email;
-import org.codemonkey.simplejavamail.Mailer;
+import org.simplejavamail.email.Email;
+import org.simplejavamail.mailer.Mailer;
 
 import javax.inject.Inject;
 import javax.mail.Message;

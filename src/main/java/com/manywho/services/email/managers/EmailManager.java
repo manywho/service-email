@@ -6,7 +6,8 @@ import com.manywho.services.email.actions.SendEmailSimple;
 import com.manywho.services.email.entities.Configuration;
 import com.manywho.services.email.factories.MailerFactory;
 import com.manywho.services.email.service.EmailService;
-import org.codemonkey.simplejavamail.Mailer;
+import org.simplejavamail.mailer.Mailer;
+
 import javax.inject.Inject;
 import java.io.IOException;
 

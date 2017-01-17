@@ -31,9 +31,9 @@
             <version>${slf4jVersion}</version>
         </dependency>
         <dependency>
-            <groupId>org.codemonkey.simplejavamail</groupId>
+            <groupId>org.simplejavamail</groupId>
             <artifactId>simple-java-mail</artifactId>
-            <version>2.5</version>
+            <version>4.1.2</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>

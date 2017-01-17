@@ -2,10 +2,10 @@ package com.manywho.services.email.controllers;
 
 import com.manywho.sdk.utils.AuthorizationUtils;
 import com.manywho.services.email.test.EmailServiceFunctionalTest;
-import org.codemonkey.simplejavamail.Email;
-import org.codemonkey.simplejavamail.Mailer;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.simplejavamail.email.Email;
+import org.simplejavamail.mailer.Mailer;
 
 import javax.mail.Session;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -14,7 +14,9 @@ import javax.ws.rs.core.Response;
 
 import static java.lang.Thread.sleep;
 import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class SendEmailControllerTest extends EmailServiceFunctionalTest {
     @Test

@@ -1,8 +1,8 @@
 package com.manywho.services.email.factories;
 
 import com.manywho.services.email.entities.Configuration;
-import org.codemonkey.simplejavamail.Mailer;
-import org.codemonkey.simplejavamail.TransportStrategy;
+import org.simplejavamail.mailer.Mailer;
+import org.simplejavamail.mailer.config.TransportStrategy;
 
 public class MailerFactory {
 
