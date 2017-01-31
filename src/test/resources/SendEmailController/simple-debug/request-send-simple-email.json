@@ -1,6 +1,6 @@
 {
-  "joinPlayerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?join=345f0642-2c7a-4c49-bf2f-2d69ece24707&mode=DEBUG",
-  "playerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?flow-id=24045d3d-20dd-4f7c-9728-ce42dda09862&mode=DEBUG",
+  "joinPlayerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?join=345f0642-2c7a-4c49-bf2f-2d69ece24707",
+  "playerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?flow-id=24045d3d-20dd-4f7c-9728-ce42dda09862",
   "uri": "https://manywho-ex2.ngrok.io/api/email/1/actions/email-simple",
   "inputs": [
     {
@@ -69,6 +69,7 @@
     "country": "USA",
     "variant": null
   },
+  "executionMode": "DEBUG",
   "configurationValues": [
     {
       "valueElementId": null,
