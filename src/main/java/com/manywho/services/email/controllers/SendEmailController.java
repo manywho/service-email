@@ -2,6 +2,7 @@ package com.manywho.services.email.controllers;
 
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
+import com.manywho.sdk.enums.FlowMode;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.controllers.AbstractController;
 import com.manywho.services.email.actions.SendEmail;
@@ -39,7 +40,7 @@ public class SendEmailController extends AbstractController {
         Configuration configuration = this.parseConfigurationValues(serviceRequest, Configuration.class);
         SendEmail mailParameters = this.parseInputs(serviceRequest,  SendEmail.class);
 
-        emailManager.sendEmail(configuration, mailParameters, isDebugActive(serviceRequest.getPlayerUri()));
+        emailManager.sendEmail(configuration, mailParameters, isDebugActive(serviceRequest.getExecutionMode()));
         return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
     }
 
@@ -49,19 +50,12 @@ public class SendEmailController extends AbstractController {
         Configuration configuration = this.parseConfigurationValues(serviceRequest, Configuration.class);
         SendEmailSimple mailParameters = this.parseInputs(serviceRequest,  SendEmailSimple.class);
 
-        emailManager.sendEmailSimple(configuration, mailParameters, isDebugActive(serviceRequest.getPlayerUri()));
+        emailManager.sendEmailSimple(configuration, mailParameters, isDebugActive(serviceRequest.getExecutionMode()));
 
         return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
     }
 
-    private boolean isDebugActive(String uri) throws URISyntaxException {
-        List<NameValuePair> parameters  = URLEncodedUtils.parse(new URI(uri), "UTF-8");
-        for (NameValuePair p:parameters) {
-            if(Objects.equals(p.getName(), "mode") && (Objects.equals(p.getValue(), "DEBUG") || Objects.equals(p.getValue(), "DEBUG_STEPTHROUGH"))) {
-                return true;
-            }
-        }
-
-        return false;
+    private boolean isDebugActive(FlowMode executionMode){
+        return Objects.equals(executionMode, FlowMode.Debug) || Objects.equals(executionMode, FlowMode.DebugStepthrough);
     }
 }
