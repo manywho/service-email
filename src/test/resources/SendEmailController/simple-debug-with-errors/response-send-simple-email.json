@@ -1,0 +1,10 @@
+{
+  "kind": "service",
+  "uri": "/actions/email-simple",
+  "statusCode": 500,
+  "responseBody": null,
+  "responseHeaders": null,
+  "message": "specific error",
+  "invokeType": null,
+  "action": null
+}

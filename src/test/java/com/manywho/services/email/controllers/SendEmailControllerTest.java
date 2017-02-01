@@ -4,19 +4,16 @@ import com.manywho.sdk.utils.AuthorizationUtils;
 import com.manywho.services.email.test.EmailServiceFunctionalTest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.simplejavamail.MailException;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.mailer.Mailer;
-
 import javax.mail.Session;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-
 import static java.lang.Thread.sleep;
 import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SendEmailControllerTest extends EmailServiceFunctionalTest {
     @Test
@@ -214,5 +211,43 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
         assertEquals("test2@mailaccount.com", argumentCaptorEmail.getValue().getRecipients().get(1).getAddress());
 
         assertEquals(2, argumentCaptorEmail.getValue().getRecipients().size());
+    }
+
+
+    @Test
+    public void testSendEmailSimpleDebugWithException() throws Exception {
+        MultivaluedMap<String,Object> headers = new MultivaluedHashMap<>();
+        headers.add("Authorization", AuthorizationUtils.serialize(getDefaultAuthenticatedWho()));
+
+        when(emailServiceMock.createEmailSimple(any(), any())).thenCallRealMethod();
+
+        ArgumentCaptor<Email> argumentCaptorEmail = ArgumentCaptor.forClass(Email.class);
+        ArgumentCaptor<Mailer> argumentCaptorMailer = ArgumentCaptor.forClass(Mailer.class);
+
+        //force an exception
+        MailException mailException = new MailException("Third party error", new Exception("error")) {
+            @Override
+            public String getMessage() {
+                return super.getMessage();
+            }
+
+            @Override
+            public Exception getCause(){
+                return new Exception("specific error");
+            }
+        };
+
+        doThrow(mailException)
+                .when(emailServiceMock).sendEmail(argumentCaptorMailer.capture(), argumentCaptorEmail.capture());
+
+        Response responseMsg = target("/actions/email-simple").request()
+                .headers(headers)
+                .post(getServerRequestFromFile("SendEmailController/simple-debug-with-errors/request-send-simple-email.json"));
+
+        //check the response have the descriptive error
+        assertJsonSame(
+                getJsonFormatFileContent("SendEmailController/simple-debug-with-errors/response-send-simple-email.json"),
+                getJsonFormatResponse(responseMsg)
+        );
     }
 }
