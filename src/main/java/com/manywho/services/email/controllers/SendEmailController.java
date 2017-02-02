@@ -9,18 +9,11 @@ import com.manywho.services.email.actions.SendEmail;
 import com.manywho.services.email.actions.SendEmailSimple;
 import com.manywho.services.email.entities.Configuration;
 import com.manywho.services.email.managers.EmailManager;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.simplejavamail.MailException;
-
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Objects;
 
 @Path("/actions")
@@ -40,12 +33,7 @@ public class SendEmailController extends AbstractController {
     public ServiceResponse sendEmail(ServiceRequest serviceRequest) throws Exception {
         Configuration configuration = this.parseConfigurationValues(serviceRequest, Configuration.class);
         SendEmail mailParameters = this.parseInputs(serviceRequest,  SendEmail.class);
-
-        try {
-            emailManager.sendEmail(configuration, mailParameters, isDebugActive(serviceRequest.getExecutionMode()));
-        } catch (MailException e) {
-            throw new RuntimeException(e.getCause().getMessage());
-        }
+        emailManager.sendEmail(configuration, mailParameters, isAsyncCall(serviceRequest.getExecutionMode()));
 
         return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
     }
@@ -55,17 +43,12 @@ public class SendEmailController extends AbstractController {
     public ServiceResponse sendEmailSimple(ServiceRequest serviceRequest) throws Exception {
         Configuration configuration = this.parseConfigurationValues(serviceRequest, Configuration.class);
         SendEmailSimple mailParameters = this.parseInputs(serviceRequest,  SendEmailSimple.class);
-
-        try {
-            emailManager.sendEmailSimple(configuration, mailParameters, isDebugActive(serviceRequest.getExecutionMode()));
-        } catch (MailException e) {
-            throw new RuntimeException(e.getCause().getMessage());
-        }
+        emailManager.sendEmailSimple(configuration, mailParameters, isAsyncCall(serviceRequest.getExecutionMode()));
 
         return new ServiceResponse(InvokeType.Forward, serviceRequest.getToken());
     }
 
-    private boolean isDebugActive(FlowMode executionMode){
-        return Objects.equals(executionMode, FlowMode.Debug) || Objects.equals(executionMode, FlowMode.DebugStepthrough);
+    private boolean isAsyncCall(FlowMode executionMode){
+        return !(Objects.equals(executionMode, FlowMode.Debug) || Objects.equals(executionMode, FlowMode.DebugStepthrough));
     }
 }

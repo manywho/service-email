@@ -1,58 +1,32 @@
 package com.manywho.services.email.managers;
 
-import com.manywho.sdk.utils.ThreadUtils;
 import com.manywho.services.email.actions.SendEmail;
 import com.manywho.services.email.actions.SendEmailSimple;
 import com.manywho.services.email.entities.Configuration;
-import com.manywho.services.email.factories.MailerFactory;
+import com.manywho.services.email.factories.EmailFactory;
 import com.manywho.services.email.service.EmailService;
-import org.simplejavamail.mailer.Mailer;
 
 import javax.inject.Inject;
 import java.io.IOException;
 
 public class EmailManager {
-    private EmailService emailService;
     private FileManager fileManager;
-    private MailerFactory mailerFactory;
+    private EmailService emailService;
+    private EmailFactory emailFactory;
 
     @Inject
-    public EmailManager(FileManager fileManager, EmailService emailService, MailerFactory mailerFactory) {
+    public EmailManager(FileManager fileManager, EmailService emailService, EmailFactory emailFactory) {
         this.fileManager = fileManager;
         this.emailService = emailService;
-        this.mailerFactory = mailerFactory;
+        this.emailFactory = emailFactory;
     }
 
-    public void sendEmail(Configuration configuration, SendEmail sendEmail, Boolean debugActive) throws IOException {
-
-        Mailer mailer = mailerFactory.createMailer(configuration);
-
-        if (debugActive) {
-            emailService.sendEmail(mailer, emailService.createEmail(sendEmail));
-            fileManager.deleteFiles(sendEmail.getFiles());
-        } else {
-            ThreadUtils.runInBackground(() -> {
-                // create email (it will download the attachments from persistence server)
-                emailService.sendEmail(mailer, emailService.createEmail(sendEmail));
-
-                // after the email is sent I can remove the attachments from persistence server
-                fileManager.deleteFiles(sendEmail.getFiles());
-            });
-        }
+    public void sendEmail(Configuration configuration, SendEmail sendEmail, Boolean async) throws IOException {
+        emailService.sendMail(async, configuration, emailFactory.createEmail(sendEmail));
+        fileManager.deleteFiles(sendEmail.getFiles());
     }
 
-    public void sendEmailSimple(Configuration configuration, SendEmailSimple sendEmail, Boolean debugActive) {
-
-        Mailer mailer = mailerFactory.createMailer(configuration);
-
-        if(debugActive) {
-            emailService.sendEmail(mailer, emailService.createEmailSimple(sendEmail, configuration.getUsername()));
-        } else {
-
-            ThreadUtils.runInBackground(() -> {
-                // create email (it will download the attachments from persistence server)
-                emailService.sendEmail(mailer, emailService.createEmailSimple(sendEmail,  configuration.getUsername()));
-            });
-        }
+    public void sendEmailSimple(Configuration configuration, SendEmailSimple sendEmail, Boolean async) {
+        emailService.sendMail(async, configuration, emailFactory.createEmailSimple(sendEmail, configuration.getUsername()));
     }
 }
