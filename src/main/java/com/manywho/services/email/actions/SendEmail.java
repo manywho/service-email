@@ -8,7 +8,7 @@ import com.manywho.services.email.types.Contact;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Action(name = "Send Email", summary = "Send an Email", uriPart = "actions/email")
+@Action(name = "Send Email", summary = "Send an email with more advanced features (HTML, attachments, etc.)", uriPart = "actions/email")
 public class SendEmail {
 
     @ActionInput(name="Attachments", contentType = ContentType.List, required = false)
