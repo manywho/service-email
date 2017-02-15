@@ -60,7 +60,7 @@
     "actions": [{
         "uriPart": "actions/email",
         "developerName": "Send Email",
-        "developerSummary": "Send an Email",
+        "developerSummary": "Send an email with more advanced features (HTML, attachments, etc.)",
         "serviceInputs": [{
             "developerName": "Attachments",
             "contentValue": null,
@@ -123,8 +123,8 @@
         "serviceActionOutcomes": null
     }, {
         "uriPart": "actions/email-simple",
-        "developerName": "Send Email Simple",
-        "developerSummary": "Send an Email simple",
+        "developerName": "Send Email (Simple)",
+        "developerSummary": "Send a basic email using simple inputs",
         "serviceInputs": [{
             "developerName": "Body",
             "contentValue": null,
