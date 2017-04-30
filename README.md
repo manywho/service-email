@@ -3,8 +3,6 @@ ManyWho Email Service
 
 This service allows you to send email using the flow.
 
-This service is under active development and is not stable.
-
 
 ### Build
 To build the service, you will need to have Apache Ant, Maven 3 and a Java 8 implementation installed.
