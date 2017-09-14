@@ -16,7 +16,7 @@ public class SendEmailSimple {
     @ActionInput(name = "To", contentType = ContentType.String, required = true)
     private String to;
 
-    @ActionInput(name = "Body", contentType = ContentType.String, required = false)
+    @ActionInput(name = "Body", contentType = ContentType.Content, required = false)
     private String body;
 
     @ActionInput(name = "Subject", contentType = ContentType.String, required = false)

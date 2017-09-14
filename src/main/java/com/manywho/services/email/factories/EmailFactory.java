@@ -75,7 +75,7 @@ public class EmailFactory {
         }
 
         email.setSubject(sendEmail.getSubject());
-        email.setText(sendEmail.getBody());
+        email.setTextHTML(sendEmail.getBody());
 
         return email;
     }

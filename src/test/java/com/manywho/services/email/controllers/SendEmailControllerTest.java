@@ -149,7 +149,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
 
         Email capturedEmail = argumentCaptorEmail.getValue();
 
-        assertEquals("Email body", capturedEmail.getText());
+        assertEquals("Email body", capturedEmail.getTextHTML());
         assertEquals("Email subject", capturedEmail.getSubject());
 
         assertEquals("test@mailaccount.com", capturedEmail.getFromRecipient().getName());
@@ -192,7 +192,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
 
         Email capturedEmail = argumentCaptorEmail.getValue();
 
-        assertEquals("Email body", capturedEmail.getText());
+        assertEquals("Email body", capturedEmail.getTextHTML());
         assertEquals("Email subject", capturedEmail.getSubject());
 
         assertEquals("test@mailaccount.com", capturedEmail.getFromRecipient().getName());

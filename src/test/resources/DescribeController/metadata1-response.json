@@ -71,7 +71,7 @@
         }, {
             "developerName": "Body",
             "contentValue": null,
-            "contentType": "ContentString",
+            "contentType": "ContentContent",
             "typeElementDeveloperName": null,
             "ordinal": 0,
             "required": false
@@ -85,7 +85,7 @@
         }, {
             "developerName": "HTML Body",
             "contentValue": null,
-            "contentType": "ContentString",
+            "contentType": "ContentContent",
             "typeElementDeveloperName": null,
             "ordinal": 0,
             "required": false
@@ -128,7 +128,7 @@
         "serviceInputs": [{
             "developerName": "Body",
             "contentValue": null,
-            "contentType": "ContentString",
+            "contentType": "ContentContent",
             "typeElementDeveloperName": null,
             "ordinal": 0,
             "required": false
