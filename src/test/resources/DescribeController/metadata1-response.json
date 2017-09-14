@@ -71,7 +71,7 @@
         }, {
             "developerName": "Body",
             "contentValue": null,
-            "contentType": "ContentContent",
+            "contentType": "ContentString",
             "typeElementDeveloperName": null,
             "ordinal": 0,
             "required": false

@@ -31,7 +31,7 @@ public class SendEmail {
     @ActionInput(name = "Subject", contentType = ContentType.String, required = false)
     private String subject;
 
-    @ActionInput(name = "Body", contentType = ContentType.Content, required = false)
+    @ActionInput(name = "Body", contentType = ContentType.String, required = false)
     private String body;
 
     @ActionInput(name="HTML Body", contentType = ContentType.Content, required = false)
