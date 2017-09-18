@@ -44,6 +44,69 @@
         "typeElementDeveloperName": null,
         "ordinal": 0,
         "required": true
+    }, {
+        "developerName": "BoxAppUserId",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+    }, {
+        "developerName": "BoxEnterpriseId",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+    }, {
+        "developerName": "BoxPublicKeyId",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+    }, {
+        "developerName": "UseBoxForAttachment",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+    }, {
+        "developerName": "S3AccessKeyId",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+    }, {
+        "developerName": "s3AccessSecret",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+    }, {
+        "developerName": "S3BucketName",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+    }, {
+        "developerName": "S3Region",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+    }, {
+        "developerName": "RetainFiles",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
     }],
     "providesAutoBinding": false,
     "providesDatabase": false,

@@ -9,21 +9,25 @@ import com.manywho.services.email.service.EmailService;
 import javax.inject.Inject;
 import java.io.IOException;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 public class EmailManager {
-    private FileManager fileManager;
     private EmailService emailService;
     private EmailFactory emailFactory;
+    private FileManager fileManager;
 
     @Inject
-    public EmailManager(FileManager fileManager, EmailService emailService, EmailFactory emailFactory) {
-        this.fileManager = fileManager;
+    public EmailManager(EmailService emailService, EmailFactory emailFactory, FileManager fileManager) {
         this.emailService = emailService;
         this.emailFactory = emailFactory;
+        this.fileManager = fileManager;
     }
 
     public void sendEmail(Configuration configuration, SendEmail sendEmail, Boolean async) throws IOException {
-        emailService.sendMail(async, configuration, emailFactory.createEmail(sendEmail));
-        fileManager.deleteFiles(sendEmail.getFiles());
+        emailService.sendMail(async, configuration, emailFactory.createEmail(configuration, sendEmail));
+        if (!configuration.getUseBoxForAttachment() && !configuration.getRetainFiles()) {
+            fileManager.deleteFiles(configuration, sendEmail.getFiles());
+        }
     }
 
     public void sendEmailSimple(Configuration configuration, SendEmailSimple sendEmail, Boolean async) {

@@ -44,6 +44,54 @@ following command will start the service listening on port 9090 (`0.0.0.0:9090/a
 ```bash
 $ java -Dserver.port=9090 -jar target/demo-1.0-SNAPSHOT.jar
 ```
+##### Usage
+The service configuration can specify S3 parameters to be used for attachment.
+If neither is specified, a default S3 bucket is provided to upload file that need to be attached.
+If your own S3 is used and the attached files need to be retained set the flag 'RetainS3File' to true.
+###### Configurations
+ - Host
+ - Port
+- Username
+- Transport
+- BoxAppUserId
+- BoxEnterpriseId
+- UseBoxForAttachment
+- S3AccessKeyId
+- s3AccessSecret
+- S3BucketName
+- S3Region
+- RetainFiles
+
+###### Box config from S3
+If Box is used for email attachment this app requires you to setup its box config from an encrypted s3 bucket. 
+
+In AWS add s3 bucket with an "access key user" + policy for read access to the bucket
+
+login to your box developer account and create enterprise app,
+Generate Keys and add resulting json config file to your s3 bucket.
+The json file should have the name enterpriseId_publicKeyId_config.json e.g. this is how box will generate the file for you.
+
+Example file: it contains all config required by box sdk to connect and sign requests
+```
+515799_1beowk9s_config.json
+```
+
+```json
+{
+  "boxAppSettings": {
+    "clientID": "dummyClientId",
+    "clientSecret": "dummySecret",
+    "appAuth": {
+      "publicKeyID": "1beowk9s",
+      "privateKey": "-----BEGIN ENCRYPTED PRIVATE KEY-----\nsomeKey=\n-----END ENCRYPTED PRIVATE KEY-----\n",
+      "passphrase": "passphrase"
+    }
+  },
+  "enterpriseID": "515799"
+}
+```
+ask for this app to be authorised by admin
+
 
 ## Contributing
 
