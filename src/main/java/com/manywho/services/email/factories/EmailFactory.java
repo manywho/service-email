@@ -3,6 +3,8 @@ package com.manywho.services.email.factories;
 import com.manywho.sdk.services.types.system.$File;
 import com.manywho.services.email.actions.SendEmail;
 import com.manywho.services.email.actions.SendEmailSimple;
+import com.manywho.services.email.dtos.FileDownload;
+import com.manywho.services.email.entities.Configuration;
 import com.manywho.services.email.managers.FileManager;
 import com.manywho.services.email.types.Contact;
 import org.apache.commons.lang3.StringUtils;
@@ -11,9 +13,11 @@ import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class EmailFactory {
 
@@ -24,7 +28,7 @@ public class EmailFactory {
         this.fileManager = fileManager;
     }
 
-    public Email createEmail(SendEmail sendEmail) throws IOException {
+    public Email createEmail(Configuration configuration, SendEmail sendEmail) throws IOException {
         final Email email = new Email();
 
         for (Contact c : sendEmail.getTo()) {
@@ -45,7 +49,12 @@ public class EmailFactory {
 
         if(sendEmail.getFiles() != null) {
             for ($File file : sendEmail.getFiles()) {
-                email.addAttachment(file.getName(), new ByteArrayDataSource(fileManager.downloadFile(file.getId()), file.getMimeType()));
+                FileDownload fileDownload = fileManager.downloadFile(configuration, file.getId());
+                if (Objects.nonNull(fileDownload)) {
+                    try (InputStream attachment = fileDownload.getFileInput()) {
+                        email.addAttachment(file.getName(), new ByteArrayDataSource(attachment, fileDownload.getMimeType()));
+                    }
+                }
             }
         }
 
