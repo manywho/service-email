@@ -1,13 +1,14 @@
-package com.manywho.services.email.factories;
+package com.manywho.services.email.email;
 
-import com.manywho.services.email.entities.Configuration;
+import com.manywho.services.email.ApplicationConfiguration;
 import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.config.TransportStrategy;
 
 public class MailerFactory {
 
-    public Mailer createMailer(Configuration configuration) {
+    public Mailer createMailer(ApplicationConfiguration configuration) {
         TransportStrategy transportStrategy;
+
         switch (configuration.getTransport()) {
             case "plain":
                 transportStrategy = TransportStrategy.SMTP_PLAIN;

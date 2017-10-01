@@ -1,13 +1,13 @@
 {
   "token": "247c01de-3adc-49be-a33e-8223b49658de",
-  "tenantId": null,
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
   "culture": null,
-  "annotations": null,
+  "annotations": {},
   "invokeType": "FORWARD",
   "waitMessage": null,
-  "outputs": null,
+  "outputs": [],
   "selectedOutcomeId": null,
-  "rootFaults": null,
-  "valueFaults": null,
+  "rootFaults": {},
+  "valueFaults": [],
   "mode": null
 }
