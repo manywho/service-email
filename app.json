@@ -1,0 +1,18 @@
+{
+  "name": "Boomi Flow Email Service",
+  "description": "A plugin that allows your Boomi Flows to send emails via SMTP",
+  "repository": "https://github.com/manywho/service-email",
+  "logo": "https://s3.amazonaws.com/manywho-service-assets/icons/service-email.png",
+  "keywords": ["manywho", "boomi", "email", "mail", "plugin", "workflow"],
+  "env": {
+    "S3_BUCKET_NAME": {
+      "description": "The AWS S3 bucket used to store attachments temporarily"
+    },
+    "S3_AWS_ACCESS_KEY_ID": {
+      "description": "A valid AWS S3 access key"
+    },
+    "S3_AWS_SECRET_ACCESS_KEY": {
+      "description": "A valid AWS S3 secret key"
+    }
+  }
+}

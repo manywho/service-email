@@ -1,21 +1,34 @@
 ManyWho Email Service
 =====================
 
-This service allows you to send email using the flow.
+This service allows you to send emails from a Boomi Flow. It temporarily stores attached files on AWS S3, before deleting
+them after the email is sent successfully.
 
+## Running
 
-### Build
+### Heroku
+
+The service is compatible with Heroku, and can be deployed by clicking the button below:
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/manywho/service-email/tree/develop)
+
+### Locally
+
+The service is a Jersey JAX-RS application, that by default is run under the Grizzly2 server on port 8080 (if you use 
+the packaged JAR).
+
+#### Building
+
 To build the service, you will need to have Apache Ant, Maven 3 and a Java 8 implementation installed.
 
 You will need to generate a configuration file for the service by running the provided `build.xml` script with Ant, and 
-passing in a valid URL to a Redis instance:
+passing in valid credentials for AWS S3:
 
-To keep the attached files during the flow this service use aws s3.
 
 ```bash
 $ ant -Ds3.bucket_name=s3bucketname \
--Ds3.aws_access_key_id=s3id \
--Ds3.aws_secret_access_key=s3secretkey
+        -Ds3.aws_access_key_id=s3id \
+        -Ds3.aws_secret_access_key=s3secretkey
 ```
 
 Now you can build the runnable shaded JAR:
@@ -23,10 +36,6 @@ Now you can build the runnable shaded JAR:
 ```bash
 $ mvn clean package
 ```
-#### Running
-
-The service is a Jersey JAX-RS application, that by default is run under the Grizzly2 server on port 8080 (if you use 
-the packaged JAR).
 
 ##### Defaults
 
@@ -47,7 +56,7 @@ $ java -Dserver.port=9090 -jar target/demo-1.0-SNAPSHOT.jar
 
 ## Contributing
 
-Contribution are welcome to the project - whether they are feature requests, improvements or bug fixes! Refer to 
+Contributions are welcome to the project - whether they are feature requests, improvements or bug fixes! Refer to 
 [CONTRIBUTING.md](CONTRIBUTING.md) for our contribution requirements.
 
 ## License
