@@ -2,9 +2,15 @@
 <project name="service" basedir="." default="generate-properties">
     <target name="generate-properties" description="Generate the properties file from the given system properties">
         <propertyfile file="src/main/resources/service.properties">
-            <entry key="s3.bucket_name" value="${s3.bucket_name}"/>
-            <entry key="s3.aws_access_key_id" value="${s3.aws_access_key_id}"/>
-            <entry key="s3.aws_secret_access_key" value="${s3.aws_secret_access_key}"/>
+            <entry key="box.appUserId" value="${box.appUserId}"/>
+            <entry key="box.clientId" value="${box.clientId}"/>
+            <entry key="box.clientSecret" value="${box.clientSecret}"/>
+            <entry key="box.publicKeyId" value="${box.publicKeyId}"/>
+            <entry key="box.privateKey" value="${box.privateKey}"/>
+            <entry key="box.privateKeyPassword" value="${box.privateKeyPassword}"/>
+            <entry key="s3.bucket" value="${s3.bucket}"/>
+            <entry key="s3.accessKey" value="${s3.accessKey}"/>
+            <entry key="s3.secretKey" value="${s3.secretKey}"/>
         </propertyfile>
     </target>
 </project>

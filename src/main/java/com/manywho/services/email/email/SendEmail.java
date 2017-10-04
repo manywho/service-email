@@ -11,7 +11,7 @@ import java.util.List;
 
 @Action.Metadata(name = "Send Email", summary = "Send an email with more advanced features (HTML, attachments, etc.)", uri = "email")
 public class SendEmail implements Action {
-    @Action.Input(name="Attachments", contentType = ContentType.List, required = false)
+    @Action.Input(name = "Attachments", contentType = ContentType.List, required = false)
     private List<$File> files = Lists.newArrayList();
 
     @NotNull(message = "A From contact is required when sending an email")
@@ -34,8 +34,20 @@ public class SendEmail implements Action {
     @Action.Input(name = "Body", contentType = ContentType.String, required = false)
     private String body;
 
-    @Action.Input(name="HTML Body", contentType = ContentType.Content, required = false)
+    @Action.Input(name = "HTML Body", contentType = ContentType.Content, required = false)
     private String htmlBody;
+
+    public List<Contact> getBcc() {
+        return bcc;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public List<Contact> getCc() {
+        return cc;
+    }
 
     public List<$File> getFiles() {
         return files;
@@ -45,27 +57,15 @@ public class SendEmail implements Action {
         return from;
     }
 
-    public List<Contact> getTo() {
-        return to;
-    }
-
-    public List<Contact> getCc() {
-        return cc;
-    }
-
-    public List<Contact> getBcc() {
-        return bcc;
+    public String getHtmlBody() {
+        return htmlBody;
     }
 
     public String getSubject() {
         return subject;
     }
 
-    public String getBody() {
-        return body;
-    }
-
-    public String getHtmlBody() {
-        return htmlBody;
+    public List<Contact> getTo() {
+        return to;
     }
 }

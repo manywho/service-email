@@ -1,35 +1,27 @@
 package com.manywho.services.email.email;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import com.google.common.base.Strings;
-import com.manywho.sdk.services.types.system.$File;
-import com.manywho.services.email.configuration.ServiceConfiguration;
+import com.manywho.services.email.ApplicationConfiguration;
+import com.manywho.services.email.email.attachments.EmailAttachmentManager;
 import com.manywho.services.email.types.Contact;
 import org.simplejavamail.email.Email;
 
 import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.util.ByteArrayDataSource;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class EmailFactory {
-
-    private final AmazonS3 amazonS3;
-    private final ServiceConfiguration serviceConfiguration;
+    private final EmailAttachmentManager attachmentManager;
 
     @Inject
-    public EmailFactory(AmazonS3 amazonS3, ServiceConfiguration serviceConfiguration) {
-        this.amazonS3 = amazonS3;
-        this.serviceConfiguration = serviceConfiguration;
+    public EmailFactory(EmailAttachmentManager attachmentManager) {
+        this.attachmentManager = attachmentManager;
     }
 
-    Email createEmail(SendEmail sendEmail) {
+    Email createEmail(ApplicationConfiguration configuration, SendEmail sendEmail) {
         final Email email = new Email();
 
         for (Contact contact : sendEmail.getTo()) {
@@ -49,13 +41,10 @@ public class EmailFactory {
         }
 
         if (sendEmail.getFiles() != null) {
-            for ($File file : sendEmail.getFiles()) {
-                try {
-                    email.addAttachment(file.getName(), new ByteArrayDataSource(downloadFile(file.getId()), file.getMimeType()));
-                } catch (IOException e) {
-                    throw new RuntimeException("Unable to add attachment", e);
-                }
-            }
+            // If we're given any files, we retrieve each of them from the attachment store and attach them to the email
+            sendEmail.getFiles().stream()
+                    .map(file -> attachmentManager.fetchAttachment(configuration, file))
+                    .forEach(file -> email.addAttachment(file.getName(), new ByteArrayDataSource(file.getFileData(), file.getMimeType())));
         }
 
         if (sendEmail.getHtmlBody() != null) {
@@ -88,14 +77,5 @@ public class EmailFactory {
         email.setTextHTML(sendEmail.getBody());
 
         return email;
-    }
-
-    private InputStream downloadFile(String key) {
-        S3Object object = amazonS3.getObject(new GetObjectRequest(
-                serviceConfiguration.get("s3.bucket_name"),
-                key
-        ));
-
-        return object.getObjectContent();
     }
 }

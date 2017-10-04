@@ -39,7 +39,7 @@ public class EmailFileHandler implements FileHandler<ApplicationConfiguration> {
         UUID id = UUID.randomUUID();
 
         amazonS3.putObject(new PutObjectRequest(
-                serviceConfiguration.get("s3.bucket_name"),
+                serviceConfiguration.get("s3.bucket"),
                 id.toString(),
                 fileUpload.getContent(),
                 new ObjectMetadata()

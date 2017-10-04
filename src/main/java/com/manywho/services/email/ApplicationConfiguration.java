@@ -19,6 +19,12 @@ public class ApplicationConfiguration implements Configuration {
     @Configuration.Setting(name = "Transport", contentType = ContentType.String)
     private String transport;
 
+    @Configuration.Setting(name = "Attachments: Source", contentType = ContentType.String)
+    private AttachmentSource attachmentSource;
+
+    @Configuration.Setting(name = "Attachments: Box Enterprise ID", contentType = ContentType.String)
+    private String boxEnterprise;
+
     public String getHost() {
         return host;
     }
@@ -37,5 +43,35 @@ public class ApplicationConfiguration implements Configuration {
 
     public String getTransport() {
         return transport;
+    }
+
+    public AttachmentSource getAttachmentSource() {
+        return attachmentSource;
+    }
+
+    public String getBoxEnterprise() {
+        return boxEnterprise;
+    }
+
+    public enum AttachmentSource {
+        Box("box"),
+        Default(""),
+        S3("s3");
+
+        private final String source;
+
+        AttachmentSource(String source) {
+            this.source = source;
+        }
+
+        public static AttachmentSource forValue(String value) {
+            for (AttachmentSource source : values()) {
+                if (value.equalsIgnoreCase(source.source)) {
+                    return source;
+                }
+            }
+
+            throw new IllegalArgumentException("The attachment source value \"" + value + "\" is not valid");
+        }
     }
 }

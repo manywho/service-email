@@ -26,9 +26,9 @@ passing in valid credentials for AWS S3:
 
 
 ```bash
-$ ant -Ds3.bucket_name=s3bucketname \
-        -Ds3.aws_access_key_id=s3id \
-        -Ds3.aws_secret_access_key=s3secretkey
+$ ant -Ds3.bucket=s3bucketname \
+        -Ds3.accessKey=s3id \
+        -Ds3.secretKey=s3secretkey
 ```
 
 Now you can build the runnable shaded JAR:
