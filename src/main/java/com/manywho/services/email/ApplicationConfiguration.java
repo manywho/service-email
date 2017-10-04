@@ -19,10 +19,10 @@ public class ApplicationConfiguration implements Configuration {
     @Configuration.Setting(name = "Transport", contentType = ContentType.String)
     private String transport;
 
-    @Configuration.Setting(name = "Attachments: Source", contentType = ContentType.String)
-    private AttachmentSource attachmentSource;
+    @Configuration.Setting(name = "Attachments: Source", contentType = ContentType.String, required = false)
+    private AttachmentSource attachmentSource = AttachmentSource.Default;
 
-    @Configuration.Setting(name = "Attachments: Box Enterprise ID", contentType = ContentType.String)
+    @Configuration.Setting(name = "Attachments: Box Enterprise ID", contentType = ContentType.String, required = false)
     private String boxEnterprise;
 
     public String getHost() {

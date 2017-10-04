@@ -10,22 +10,8 @@ import javax.ws.rs.core.MediaType;
 public class DescribeControllerTest extends EmailServiceFunctionalTest {
     @Test
     public void testDescribe() throws Exception {
-        MockHttpRequest request = MockHttpRequest.get("/metadata");
-
-        MockHttpResponse response = new MockHttpResponse();
-
-        dispatcher.invoke(request, response);
-
-        assertJsonSame(
-                getJsonFormatFileContent("DescribeController/describe-describe-response.json"),
-                response.getContentAsString()
-        );
-    }
-
-    @Test
-    public void testInstall() throws Exception {
-        MockHttpRequest request = MockHttpRequest.post("/metadata/install")
-                .content(getFile("DescribeController/describe-install-request.json"))
+        MockHttpRequest request = MockHttpRequest.post("/metadata")
+                .content(getFile("DescribeController/describe-request.json"))
                 .contentType(MediaType.APPLICATION_JSON);
 
         MockHttpResponse response = new MockHttpResponse();
@@ -33,7 +19,7 @@ public class DescribeControllerTest extends EmailServiceFunctionalTest {
         dispatcher.invoke(request, response);
 
         assertJsonSame(
-                getJsonFormatFileContent("DescribeController/describe-install-response.json"),
+                getJsonFormatFileContent("DescribeController/describe-response.json"),
                 response.getContentAsString()
         );
     }

@@ -1,4 +1,14 @@
 {
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "US",
+    "variant": null
+  },
+  "uri": "https://service.example.com/api/email/1",
   "configurationValues": [
     {
       "valueElementId": null,

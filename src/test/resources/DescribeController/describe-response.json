@@ -1,4 +1,84 @@
 {
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "US",
+    "variant": null
+  },
+  "uri": null,
+  "configurationValues": [
+    {
+      "developerName": "Host",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Port",
+      "contentValue": null,
+      "contentType": "ContentNumber",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Username",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Password",
+      "contentValue": null,
+      "contentType": "ContentPassword",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Transport",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Attachments: Box Enterprise ID",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    },
+    {
+      "developerName": "Attachments: Source",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
+    }
+  ],
+  "providesAutoBinding": false,
+  "providesDatabase": false,
+  "providesFiles": true,
+  "providesIdentity": false,
+  "providesListening": false,
+  "providesLogic": true,
+  "providesNotifications": false,
+  "providesSmartSave": false,
+  "providesSocial": false,
+  "providesSharing": false,
+  "providesViews": false,
+  "providesVoting": false,
   "actions": [
     {
       "uriPart": "actions/email",
@@ -115,33 +195,35 @@
       "serviceActionOutcomes": []
     }
   ],
-  "types": [
-    {
-      "elementType": "TYPE",
-      "developerName": "Contact",
-      "developerSummary": "The Contact object structure",
-      "id": null,
-      "serviceElementId": null,
-      "properties": [
-        {
-          "id": null,
-          "developerName": "Email",
-          "contentFormat": null,
-          "contentType": "ContentString",
-          "typeElementId": null,
-          "typeElementDeveloperName": null
-        },
-        {
-          "id": null,
-          "developerName": "Name",
-          "contentFormat": null,
-          "contentType": "ContentString",
-          "typeElementId": null,
-          "typeElementDeveloperName": null
-        }
-      ],
-      "bindings": [],
-      "updateByName": false
-    }
-  ]
+  "install": {
+    "typeElements": [
+      {
+        "elementType": "TYPE",
+        "developerName": "Contact",
+        "developerSummary": "The Contact object structure",
+        "id": null,
+        "serviceElementId": null,
+        "properties": [
+          {
+            "id": null,
+            "developerName": "Email",
+            "contentFormat": null,
+            "contentType": "ContentString",
+            "typeElementId": null,
+            "typeElementDeveloperName": null
+          },
+          {
+            "id": null,
+            "developerName": "Name",
+            "contentFormat": null,
+            "contentType": "ContentString",
+            "typeElementId": null,
+            "typeElementDeveloperName": null
+          }
+        ],
+        "bindings": [],
+        "updateByName": false
+      }
+    ]
+  }
 }

@@ -4,7 +4,7 @@
   "statusCode": 500,
   "responseBody": null,
   "responseHeaders": null,
-  "message": "Unable to send email: specific error",
+  "message": "Unable to send email: Third party error",
   "invokeType": null,
   "action": null
 }

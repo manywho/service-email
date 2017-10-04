@@ -221,11 +221,6 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
             public String getMessage() {
                 return super.getMessage();
             }
-
-            @Override
-            public Exception getCause(){
-                return new Exception("specific error");
-            }
         };
 
         doThrow(mailException)
