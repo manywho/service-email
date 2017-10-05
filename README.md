@@ -3,7 +3,7 @@ ManyWho Email Service
 
 [![Build Status](https://travis-ci.org/manywho/service-email.svg)](https://travis-ci.org/manywho/service-email)
 
-This service allows you to send emails from a Boomi Flow app. It supports attachments both as $File uploads and from an 
+This service allows you to send emails from a Boomi Flow app. It supports attachments both as `$File` uploads and from an 
 external source, configurable from the Flow.
 
 ## Running
@@ -17,11 +17,10 @@ required configuration.
 
 ### Locally
 
-The service is a JAX-RS application, that by default runs on port 8080 (if you use the packaged JAR).
+The service is a JAX-RS application, that by default runs on port 8080 (if you use the packaged JAR). To configure and 
+build the service, you will need to have Apache Ant, Maven 3 and JDK 8+ installed.
 
-#### Building
-
-To configure and build the service, you will need to have Apache Ant, Maven 3 and JDK 8+ installed.
+#### Configuring
 
 If you want to support uploading attachments or fetching them from an external source, you will need to generate a 
 configuration file for the service by running the provided `build.xml` script with Ant, and passing in any required
@@ -46,7 +45,9 @@ option to "Generate User Access Tokens" must also be enabled.
 $ ant -Ds3.box.appUserId=1234567 -Dbox.clientId=*** -Dbox.clientSecret=*** -Dbox.publicKeyId=a1b2c3d4 -Dbox.privateKey=*** -Dbox.privateKeyPassword=***
 ```
 
-Now you can build the runnable shaded JAR:
+#### Building
+
+Once any configuration is complete, you can build the runnable shaded JAR:
 
 ```bash
 $ mvn clean package
