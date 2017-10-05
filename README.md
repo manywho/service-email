@@ -1,6 +1,8 @@
 ManyWho Email Service
 =====================
 
+[![Build Status](https://travis-ci.org/manywho/service-email.svg)](https://travis-ci.org/manywho/service-email)
+
 This service allows you to send emails from a Boomi Flow app. It supports attachments both as $File uploads and from an 
 external source, configurable from the Flow.
 
