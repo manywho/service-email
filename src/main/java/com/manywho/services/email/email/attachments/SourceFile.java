@@ -5,7 +5,7 @@ public class SourceFile {
     private final String name;
     private String mimeType;
 
-    public SourceFile(byte[] fileData, String name) {
+    SourceFile(byte[] fileData, String name) {
         this.fileData = fileData;
         this.name = name;
     }
@@ -22,7 +22,7 @@ public class SourceFile {
         return mimeType;
     }
 
-    public void setMimeType(String mimeType) {
+    void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
 }

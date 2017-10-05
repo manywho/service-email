@@ -25,6 +25,15 @@ public class ApplicationConfiguration implements Configuration {
     @Configuration.Setting(name = "Attachments: Box Enterprise ID", contentType = ContentType.String, required = false)
     private String boxEnterprise;
 
+    @Configuration.Setting(name = "Attachments: S3 Bucket", contentType = ContentType.String, required = false)
+    private String s3Bucket;
+
+    @Configuration.Setting(name = "Attachments: S3 Access Key", contentType = ContentType.String, required = false)
+    private String s3AccessKey;
+
+    @Configuration.Setting(name = "Attachments: S3 Secret Key", contentType = ContentType.Password, required = false)
+    private String s3SecretKey;
+
     public String getHost() {
         return host;
     }
@@ -51,6 +60,30 @@ public class ApplicationConfiguration implements Configuration {
 
     public String getBoxEnterprise() {
         return boxEnterprise;
+    }
+
+    public String getS3Bucket() {
+        return s3Bucket;
+    }
+
+    public void setS3Bucket(String s3Bucket) {
+        this.s3Bucket = s3Bucket;
+    }
+
+    public String getS3AccessKey() {
+        return s3AccessKey;
+    }
+
+    public void setS3AccessKey(String s3AccessKey) {
+        this.s3AccessKey = s3AccessKey;
+    }
+
+    public String getS3SecretKey() {
+        return s3SecretKey;
+    }
+
+    public void setS3SecretKey(String s3SecretKey) {
+        this.s3SecretKey = s3SecretKey;
     }
 
     public enum AttachmentSource {
