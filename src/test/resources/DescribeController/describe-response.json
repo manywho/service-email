@@ -89,6 +89,14 @@
       "typeElementDeveloperName": null,
       "ordinal": 0,
       "required": false
+    },
+    {
+      "developerName": "Attachments: S3 Region",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
     }
   ],
   "providesAutoBinding": false,
