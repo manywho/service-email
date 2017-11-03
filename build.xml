@@ -11,6 +11,7 @@
             <entry key="s3.bucket" value="${s3.bucket}"/>
             <entry key="s3.accessKey" value="${s3.accessKey}"/>
             <entry key="s3.secretKey" value="${s3.secretKey}"/>
+            <entry key="s3.region" value="${s3.region}"/>
         </propertyfile>
     </target>
 </project>

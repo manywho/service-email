@@ -17,6 +17,10 @@
       "description": "A valid AWS S3 secret key used to store attachments temporarily",
       "required": false
     },
+    "S3_REGION": {
+      "description": "A valid AWS S3 region used to store attachments temporarily",
+      "required": false
+    },
     "BOX_APP_USER_ID": {
       "description": "The ID of the App User in the created Box application, used to fetch attachments from Box",
       "required": false

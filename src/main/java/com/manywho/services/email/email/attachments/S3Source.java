@@ -31,6 +31,7 @@ public class S3Source implements Source {
         // Create the S3 client, based on the given credentials
         final AmazonS3 amazonS3 = AmazonS3Client.builder()
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(configuration.getS3AccessKey(), configuration.getS3SecretKey())))
+                .withRegion(configuration.getS3Region())
                 .build();
 
         // Fetch the file info from S3

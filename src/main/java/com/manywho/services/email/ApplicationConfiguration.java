@@ -34,6 +34,9 @@ public class ApplicationConfiguration implements Configuration {
     @Configuration.Setting(name = "Attachments: S3 Secret Key", contentType = ContentType.Password, required = false)
     private String s3SecretKey;
 
+    @Configuration.Setting(name = "Attachments: S3 Region", contentType = ContentType.String, required = false)
+    private String s3Region;
+
     public String getHost() {
         return host;
     }
@@ -84,6 +87,15 @@ public class ApplicationConfiguration implements Configuration {
 
     public void setS3SecretKey(String s3SecretKey) {
         this.s3SecretKey = s3SecretKey;
+    }
+
+
+    public String getS3Region() {
+        return s3Region;
+    }
+
+    public void setS3Region(String s3Region) {
+        this.s3Region = s3Region;
     }
 
     public enum AttachmentSource {

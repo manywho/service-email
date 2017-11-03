@@ -32,7 +32,7 @@ An S3 bucket will need to be created, along with an IAM user with `s3:GetObject`
 with `s3:PutObject` permissions if you wish to enable uploads using the service).
 
 ```bash
-$ ant -Ds3.bucket=bucket -Ds3.accessKey=*** -Ds3.secretKey=***
+$ ant -Ds3.bucket=bucket -Ds3.accessKey=*** -Ds3.secretKey=*** -Ds3.region=***
 ```
 
 ##### Example: Configuring the service to fetch attachments from Box

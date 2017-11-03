@@ -21,6 +21,7 @@ public class DefaultSource implements Source {
         configuration.setS3AccessKey(serviceConfiguration.get("s3.accessKey"));
         configuration.setS3SecretKey(serviceConfiguration.get("s3.secretKey"));
         configuration.setS3Bucket(serviceConfiguration.get("s3.bucket"));
+        configuration.setS3Region(serviceConfiguration.get("s3.region"));
 
         return s3Source.download(configuration, key);
     }
