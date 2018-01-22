@@ -44,6 +44,10 @@
     "BOX_PRIVATE_KEY_PASSWORD": {
       "description": "The password for the above private key",
       "required": false
+    },
+    "REDIS_URL": {
+      "description": "Redis url",
+      "required": false
     }
   }
 }

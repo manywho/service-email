@@ -12,6 +12,7 @@
             <entry key="s3.accessKey" value="${s3.accessKey}"/>
             <entry key="s3.secretKey" value="${s3.secretKey}"/>
             <entry key="s3.region" value="${s3.region}"/>
+            <entry key="redis.url" value="${redis.url}"/>
         </propertyfile>
     </target>
 </project>

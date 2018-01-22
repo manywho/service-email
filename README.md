@@ -42,7 +42,7 @@ configured to use "OAuth 2.0 with JWT (Server Authentication)", with Enterprise 
 option to "Generate User Access Tokens" must also be enabled.
 
 ```bash
-$ ant -Ds3.box.appUserId=1234567 -Dbox.clientId=*** -Dbox.clientSecret=*** -Dbox.publicKeyId=a1b2c3d4 -Dbox.privateKey=*** -Dbox.privateKeyPassword=***
+$ ant -Ds3.box.appUserId=1234567 -Dbox.clientId=*** -Dbox.clientSecret=*** -Dbox.publicKeyId=a1b2c3d4 -Dbox.privateKey=*** -Dbox.privateKeyPassword=*** -Dredis.url=***
 ```
 
 #### Building
