@@ -225,6 +225,63 @@
       ],
       "serviceOutputs": [],
       "serviceActionOutcomes": []
+    },{
+      "uriPart": "actions/email-choices",
+      "serviceInputs": [{
+        "developerName": "Attachments",
+        "contentValue": null,
+        "contentType": "ContentList",
+        "typeElementDeveloperName": "$File",
+        "ordinal": 0,
+        "required": false
+      }, {
+        "developerName": "Body",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+      }, {
+        "developerName": "From",
+        "contentValue": null,
+        "contentType": "ContentObject",
+        "typeElementDeveloperName": "Contact",
+        "ordinal": 0,
+        "required": true
+      }, {
+        "developerName": "HTML Body",
+        "contentValue": null,
+        "contentType": "ContentContent",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+      }, {
+        "developerName": "Subject",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": false
+      }, {
+        "developerName": "To",
+        "contentValue": null,
+        "contentType": "ContentList",
+        "typeElementDeveloperName": "Contact",
+        "ordinal": 0,
+        "required": true
+      }],
+      "serviceOutputs": [{
+        "developerName": "Recipient",
+        "contentValue": null,
+        "contentType": "ContentString",
+        "typeElementDeveloperName": null,
+        "ordinal": 0,
+        "required": true
+      }],
+      "developerName": "Send Email with Decision Request",
+      "developerSummary": "Send an email with a decision request",
+      "serviceActionOutcomes": [],
+      "isViewMessageAction": false
     }
   ],
   "install": {

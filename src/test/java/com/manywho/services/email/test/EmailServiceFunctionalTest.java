@@ -3,17 +3,19 @@ package com.manywho.services.email.test;
 import com.amazonaws.services.s3.AmazonS3;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
+import com.google.inject.*;
 import com.google.inject.util.Modules;
+import com.manywho.sdk.client.run.RunClient;
 import com.manywho.sdk.services.ServiceApplicationModule;
 import com.manywho.sdk.services.controllers.DefaultActionController;
 import com.manywho.sdk.services.controllers.DefaultDescribeController;
 import com.manywho.sdk.services.controllers.DefaultFileController;
 import com.manywho.services.email.ApplicationModule;
+import com.manywho.services.email.configuration.ServiceConfiguration;
+import com.manywho.services.email.configuration.ServiceConfigurationDefault;
 import com.manywho.services.email.email.MailerFactory;
+import com.manywho.services.email.guice.JedisPoolProvider;
+import com.manywho.services.email.guice.RunClientProvider;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.json.JSONException;
@@ -22,8 +24,10 @@ import org.mockito.Mockito;
 import org.reflections.Reflections;
 import org.simplejavamail.mailer.Mailer;
 import org.skyscreamer.jsonassert.JSONAssert;
+import redis.clients.jedis.JedisPool;
 
 import javax.ws.rs.Path;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,13 +42,21 @@ public class EmailServiceFunctionalTest {
 
     protected MailerFactory mailerFactory;
     protected Mailer mailer;
+    protected ServiceConfiguration serviceConfigurationDefault;
     protected AmazonS3 amazonS3;
+    protected JedisPool jedisPool;
+    protected RunClient runClient;
+    protected UriInfo uriInfo;
 
     @Before
     public void setUp() throws Exception {
-        this.mailerFactory = Mockito.mock(MailerFactory.class);
-        this.mailer = Mockito.mock(Mailer.class);
-        this.amazonS3 = Mockito.mock(AmazonS3.class);
+        mailerFactory = Mockito.mock(MailerFactory.class);
+        mailer = Mockito.mock(Mailer.class);
+        amazonS3 = Mockito.mock(AmazonS3.class);
+        serviceConfigurationDefault = Mockito.mock(ServiceConfiguration.class);
+        jedisPool = Mockito.mock(JedisPool.class);
+        runClient = Mockito.mock(RunClient.class);
+        uriInfo = Mockito.mock(UriInfo.class);
 
         final List<Module> modules = Lists.newArrayList();
 
@@ -98,6 +110,10 @@ public class EmailServiceFunctionalTest {
             protected void configure() {
                 bind(AmazonS3.class).toProvider(() -> amazonS3);
                 bind(MailerFactory.class).toProvider(() -> mailerFactory);
+                bind(ServiceConfiguration.class).toProvider(() -> serviceConfigurationDefault);
+                bind(JedisPool.class).toProvider(() -> jedisPool);
+                bind(RunClient.class).toProvider(() -> runClient);
+                bind(UriInfo.class).toProvider(() -> uriInfo);
             }
         };
     }
