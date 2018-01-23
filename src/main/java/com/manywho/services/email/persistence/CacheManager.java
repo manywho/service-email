@@ -26,7 +26,7 @@ public class CacheManager {
         try(Jedis jedis = jedisPool.getResource()) {
             jedis.set(String.format(REDIS_KEY_EMAIL_REQUEST, code), objectMapper.writeValueAsString(request));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error persisting the email", e);
         }
     }
 

@@ -37,7 +37,7 @@ public class EngineClient {
 
             return runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body().getJoinFlowUri();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while sending response to engine", e);
         }
     }
 
