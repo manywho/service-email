@@ -5,7 +5,6 @@ import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.services.actions.Action;
 import com.manywho.sdk.services.types.system.$File;
 import com.manywho.services.email.types.Contact;
-import com.manywho.services.email.types.DecisionChoice;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -33,9 +32,6 @@ public class SendEmailDecisionRequest implements Action {
         @Action.Input(name = "HTML Body", contentType = ContentType.Content, required = false)
         private String htmlBody;
 
-        @Action.Input(name = "Decision Choices", contentType = ContentType.List, required = false)
-        private List<DecisionChoice> decisionChoices;
-
         public List<$File> getFiles() {
             return files;
         }
@@ -59,21 +55,14 @@ public class SendEmailDecisionRequest implements Action {
         public List<Contact> getTo() {
             return to;
         }
-
-        public List<DecisionChoice> getDecisionChoices() {
-            return decisionChoices;
-        }
     }
 
     public static class Output {
-        @Action.Output(name = "Response", contentType = ContentType.String)
-        private String response;
 
         @Action.Output(name = "Recipient", contentType = ContentType.String)
         private String recipient;
 
-        public Output(String response, String recipient) {
-            this.response = response;
+        public Output(String recipient) {
             this.recipient = recipient;
         }
     }

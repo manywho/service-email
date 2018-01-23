@@ -1,25 +1,32 @@
 package com.manywho.services.email.persistence.entities;
 
-import com.manywho.services.email.types.DecisionChoice;
+import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
 import java.util.List;
+import java.util.UUID;
 
 public class EmailDecisionRequest {
-    private String tenantId;
+    private UUID tenantId;
     private String token;
+    private UUID stateId;
     private String email;
-    private List<DecisionChoice> decisionChoices;
+    private String authorization;
+
+    private List<OutcomeAvailable> outcomeAvailables;
 
     public EmailDecisionRequest() {
     }
 
-    public EmailDecisionRequest(String tenantId, String token, String email, List<DecisionChoice> decisionChoices) {
+    public EmailDecisionRequest(UUID tenantId, String token, String email, UUID stateId,
+                                List<OutcomeAvailable> outcomeAvailables, String authorization) {
         this.tenantId = tenantId;
         this.token = token;
         this.email = email;
-        this.decisionChoices = decisionChoices;
+        this.stateId = stateId;
+        this.outcomeAvailables = outcomeAvailables;
+        this.authorization = authorization;
     }
 
-    public String getTenantId() {
+    public UUID getTenantId() {
         return tenantId;
     }
 
@@ -31,11 +38,15 @@ public class EmailDecisionRequest {
         return email;
     }
 
-    public List<DecisionChoice> getDecisionChoices() {
-        return decisionChoices;
+    public UUID getStateId() {
+        return stateId;
     }
 
-    public void setDecisionChoices(List<DecisionChoice> decisionChoices) {
-        this.decisionChoices = decisionChoices;
+    public List<OutcomeAvailable> getOutcomeAvailables() {
+        return outcomeAvailables;
+    }
+
+    public String getAuthorization() {
+        return authorization;
     }
 }

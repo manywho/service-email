@@ -2,12 +2,13 @@ package com.manywho.services.email.clients;
 
 import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.api.InvokeType;
+import com.manywho.sdk.api.run.EngineInvokeResponse;
 import com.manywho.sdk.api.run.EngineValue;
 import com.manywho.sdk.api.run.elements.config.ServiceResponse;
+import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
+import com.manywho.sdk.client.flow.FlowState;
 import com.manywho.sdk.client.run.RunClient;
 import com.manywho.services.email.persistence.entities.EmailDecisionRequest;
-import retrofit2.Call;
-
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,23 +24,42 @@ public class EngineClient {
         this.runClient = runClient;
     }
 
-    public void sendResponseToEngine(EmailDecisionRequest emailRequest, String stringResponse) {
-        List<EngineValue> values = new ArrayList<>();
-        EngineValue valueResponse = new EngineValue("Response", ContentType.String, stringResponse);
-        values.add(valueResponse);
-
-        EngineValue valueRecipient = new EngineValue("Recipient", ContentType.String, emailRequest.getEmail());
-        values.add(valueRecipient);
-
-        ServiceResponse serviceResponse = new ServiceResponse(InvokeType.Forward, values, emailRequest.getToken());
-        serviceResponse.setTenantId(UUID.fromString(emailRequest.getTenantId()));
-
-        Call<InvokeType> invokeType = runClient.callback(null, UUID.fromString(emailRequest.getTenantId()), serviceResponse);
-
+    public String sendResponseToEngine(EmailDecisionRequest emailRequest, String stringResponse) {
         try {
-            invokeType.execute();
+            EngineInvokeResponse engineInvokeResponseCall = runClient.join(emailRequest.getTenantId(), emailRequest.getStateId())
+                    .execute().body();
+
+            runClient.callback(emailRequest.getAuthorization(), emailRequest.getTenantId(), engineValuesToSend(emailRequest, stringResponse))
+                    .execute();
+
+            FlowState flowState = new FlowState(runClient, emailRequest.getTenantId(), engineInvokeResponseCall);
+            flowState.sync();
+
+            return runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body().getJoinFlowUri();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private ServiceResponse engineValuesToSend(EmailDecisionRequest emailDecisionRequest, String stringResponse) {
+        List<EngineValue> values = new ArrayList<>();
+        values.add(new EngineValue("Recipient", ContentType.String, emailDecisionRequest.getEmail()));
+
+        ServiceResponse serviceResponse = new ServiceResponse(InvokeType.Forward, values, emailDecisionRequest.getToken());
+        serviceResponse.setTenantId(emailDecisionRequest.getTenantId());
+        UUID selectedOutcomeId = getOutcomeId(stringResponse,emailDecisionRequest.getOutcomeAvailables()).getId();
+        serviceResponse.setSelectedOutcomeId(selectedOutcomeId);
+
+        return serviceResponse;
+    }
+
+    private OutcomeAvailable getOutcomeId(String stringResponse, List<OutcomeAvailable> outcomeAvailables) {
+        for (OutcomeAvailable outcome:outcomeAvailables) {
+            if (outcome.getDeveloperName().equals(stringResponse)) {
+                return outcome;
+            }
+        }
+
+        throw new RuntimeException("outcome not found");
     }
 }

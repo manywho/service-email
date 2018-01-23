@@ -1,10 +1,10 @@
 package com.manywho.services.email.email;
 
 import com.google.common.base.Strings;
+import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
 import com.manywho.services.email.ApplicationConfiguration;
 import com.manywho.services.email.email.attachments.EmailAttachmentManager;
 import com.manywho.services.email.types.Contact;
-import com.manywho.services.email.types.DecisionChoice;
 import org.simplejavamail.email.Email;
 
 import javax.inject.Inject;
@@ -69,7 +69,7 @@ public class EmailFactory {
         return email;
     }
 
-    Email createEmailDecisionRequest(ApplicationConfiguration configuration, Contact contact, SendEmailDecisionRequest.Input sendEmail, String token) {
+    Email createEmailDecisionRequest(ApplicationConfiguration configuration, Contact contact, SendEmailDecisionRequest.Input sendEmail, String token, List<OutcomeAvailable> outcomes) {
         final Email email = new Email();
 
         email.addRecipient(contact.getName(), contact.getEmail(), Message.RecipientType.TO);
@@ -87,7 +87,7 @@ public class EmailFactory {
             bodyHtml.append(sendEmail.getBody());
         }
 
-        addLinkForChoices(bodyHtml, sendEmail.getDecisionChoices(), token);
+        addLinkForChoices(bodyHtml, outcomes, token);
 
         if (bodyHtml.toString().isEmpty() == false) {
             email.setTextHTML(bodyHtml.toString());
@@ -100,19 +100,19 @@ public class EmailFactory {
         return email;
     }
 
-    private void addLinkForChoices(StringBuilder stringBuilder, List<DecisionChoice> decisionChoices, String token) {
+    private void addLinkForChoices(StringBuilder stringBuilder, List<OutcomeAvailable> outcomeAvailables, String token) {
         URI uri = uriInfo.getBaseUri();
 
-        if (decisionChoices.isEmpty() == false) {
+        if (outcomeAvailables.isEmpty() == false) {
             stringBuilder.append("<br/><br/>");
         }
 
-        for (DecisionChoice response: decisionChoices) {
+        for (OutcomeAvailable outcome: outcomeAvailables) {
 
-            String encodeTag = encoder.encodeToString(response.getLabel().getBytes());
+            String encodeTag = encoder.encodeToString(outcome.getDeveloperName().getBytes());
 
             String link = String.format("<a href=\"%scallback/response/%s/%s\"> %s </a> &nbsp;", uri.toString(),
-                    token, encodeTag, response.getLabel());
+                    token, encodeTag, outcome.getDeveloperName());
 
             stringBuilder.append(link);
         }

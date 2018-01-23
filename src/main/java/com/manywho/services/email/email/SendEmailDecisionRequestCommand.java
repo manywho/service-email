@@ -14,6 +14,8 @@ import com.manywho.services.email.persistence.entities.EmailDecisionRequest;
 import com.manywho.services.email.types.Contact;
 import org.simplejavamail.email.Email;
 import javax.inject.Inject;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import java.util.UUID;
 
 public class SendEmailDecisionRequestCommand implements ActionCommand<ApplicationConfiguration, SendEmailDecisionRequest,
@@ -24,15 +26,18 @@ public class SendEmailDecisionRequestCommand implements ActionCommand<Applicatio
     private final AmazonS3 amazonS3;
     private final ServiceConfiguration serviceConfiguration;
     private CacheManager cacheManager;
+    private String authorizationHeader;
 
     @Inject
     public SendEmailDecisionRequestCommand(EmailManager emailManager, EmailFactory emailFactory, AmazonS3 amazonS3,
-                                           ServiceConfiguration serviceConfiguration, CacheManager cacheManager) {
+                                           ServiceConfiguration serviceConfiguration, CacheManager cacheManager,
+                                           @Context HttpHeaders headers) {
         this.emailManager = emailManager;
         this.emailFactory = emailFactory;
         this.amazonS3 = amazonS3;
         this.serviceConfiguration = serviceConfiguration;
         this.cacheManager = cacheManager;
+        this.authorizationHeader = headers.getHeaderString("Authorization");
     }
 
     @Override
@@ -41,11 +46,12 @@ public class SendEmailDecisionRequestCommand implements ActionCommand<Applicatio
             UUID uuid = UUID.randomUUID();
             String uuidString = uuid.toString();
 
-            Email email = emailFactory.createEmailDecisionRequest(configuration, to, inputs, uuidString);
+            Email email = emailFactory.createEmailDecisionRequest(configuration, to, inputs, uuidString, request.getOutcomes());
             emailManager.send(configuration, email, request.isDebugMode());
 
-            EmailDecisionRequest emailRequest = new EmailDecisionRequest(request.getTenantId().toString(),
-                    request.getToken(), to.getEmail(), inputs.getDecisionChoices());
+            EmailDecisionRequest emailRequest = new EmailDecisionRequest(request.getTenantId(),
+                    request.getToken(), to.getEmail(), request.getStateId(), request.getOutcomes(),
+                    authorizationHeader);
 
             cacheManager.saveEmailDecisionRequest(uuidString, emailRequest);
         }
@@ -60,7 +66,7 @@ public class SendEmailDecisionRequestCommand implements ActionCommand<Applicatio
             }
         }
 
-        if (inputs.getDecisionChoices().isEmpty() == false) {
+        if (request.getOutcomes().isEmpty() == false) {
             return new ActionResponse<>(InvokeType.Wait);
         }
 
