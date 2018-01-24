@@ -62,6 +62,9 @@ public class SendEmailDecisionRequest implements Action {
         @Action.Output(name = "Recipient", contentType = ContentType.String)
         private String recipient;
 
+        public Output() {
+        }
+
         public Output(String recipient) {
             this.recipient = recipient;
         }

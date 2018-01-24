@@ -70,6 +70,6 @@ public class SendEmailDecisionRequestCommand implements ActionCommand<Applicatio
             return new ActionResponse<>(InvokeType.Wait);
         }
 
-        return new ActionResponse<>(InvokeType.Forward);
+        return new ActionResponse<>(new SendEmailDecisionRequest.Output(), InvokeType.Forward);
     }
 }
