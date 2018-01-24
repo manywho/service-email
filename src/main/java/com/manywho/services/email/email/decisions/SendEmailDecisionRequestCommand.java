@@ -1,4 +1,4 @@
-package com.manywho.services.email.email;
+package com.manywho.services.email.email.decisions;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -6,16 +6,17 @@ import com.manywho.sdk.api.InvokeType;
 import com.manywho.sdk.api.run.elements.config.ServiceRequest;
 import com.manywho.sdk.services.actions.ActionCommand;
 import com.manywho.sdk.services.actions.ActionResponse;
+import com.manywho.sdk.services.providers.AuthenticatedWhoProvider;
 import com.manywho.sdk.services.types.system.$File;
 import com.manywho.services.email.ApplicationConfiguration;
 import com.manywho.services.email.configuration.ServiceConfiguration;
-import com.manywho.services.email.persistence.CacheManager;
-import com.manywho.services.email.persistence.entities.EmailDecisionRequest;
+import com.manywho.services.email.email.EmailFactory;
+import com.manywho.services.email.email.EmailManager;
+import com.manywho.services.email.email.decisions.persistence.EmailDecisionRepository;
+import com.manywho.services.email.email.decisions.persistence.entities.EmailDecisionRequest;
 import com.manywho.services.email.types.Contact;
 import org.simplejavamail.email.Email;
 import javax.inject.Inject;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import java.util.UUID;
 
 public class SendEmailDecisionRequestCommand implements ActionCommand<ApplicationConfiguration, SendEmailDecisionRequest,
@@ -25,35 +26,34 @@ public class SendEmailDecisionRequestCommand implements ActionCommand<Applicatio
     private final EmailFactory emailFactory;
     private final AmazonS3 amazonS3;
     private final ServiceConfiguration serviceConfiguration;
-    private CacheManager cacheManager;
-    private String authorizationHeader;
+    private EmailDecisionRepository emailDecisionRepository;
+    private AuthenticatedWhoProvider authenticatedWhoProvider;
 
     @Inject
     public SendEmailDecisionRequestCommand(EmailManager emailManager, EmailFactory emailFactory, AmazonS3 amazonS3,
-                                           ServiceConfiguration serviceConfiguration, CacheManager cacheManager,
-                                           @Context HttpHeaders headers) {
+                                           ServiceConfiguration serviceConfiguration, EmailDecisionRepository emailDecisionRepository,
+                                           AuthenticatedWhoProvider authenticatedWhoProvider) {
         this.emailManager = emailManager;
         this.emailFactory = emailFactory;
         this.amazonS3 = amazonS3;
         this.serviceConfiguration = serviceConfiguration;
-        this.cacheManager = cacheManager;
-        this.authorizationHeader = headers.getHeaderString("Authorization");
+        this.emailDecisionRepository = emailDecisionRepository;
+        this.authenticatedWhoProvider = authenticatedWhoProvider;
     }
 
     @Override
     public ActionResponse<SendEmailDecisionRequest.Output> execute(ApplicationConfiguration configuration, ServiceRequest request, SendEmailDecisionRequest.Input inputs) {
         for (Contact to:inputs.getTo()) {
             UUID uuid = UUID.randomUUID();
-            String uuidString = uuid.toString();
 
-            Email email = emailFactory.createEmailDecisionRequest(configuration, to, inputs, uuidString, request.getOutcomes());
+            Email email = emailFactory.createEmailDecisionRequest(configuration, to, inputs, uuid, request.getOutcomes());
             emailManager.send(configuration, email, request.isDebugMode());
 
             EmailDecisionRequest emailRequest = new EmailDecisionRequest(request.getTenantId(),
                     request.getToken(), to.getEmail(), request.getStateId(), request.getOutcomes(),
-                    authorizationHeader);
+                    authenticatedWhoProvider.get());
 
-            cacheManager.saveEmailDecisionRequest(uuidString, emailRequest);
+            emailDecisionRepository.saveEmailDecisionRequest(uuid, emailRequest);
         }
 
         // Clean up any attached files

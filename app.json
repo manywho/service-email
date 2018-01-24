@@ -46,7 +46,7 @@
       "required": false
     },
     "REDIS_URL": {
-      "description": "Redis url",
+      "description": "The fully-qualified URL to Redis, used to cache requests for callbacks",
       "required": false
     }
   }

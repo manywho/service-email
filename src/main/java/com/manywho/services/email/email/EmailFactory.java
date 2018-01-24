@@ -1,9 +1,11 @@
 package com.manywho.services.email.email;
 
 import com.google.common.base.Strings;
+import com.google.common.net.UrlEscapers;
 import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
 import com.manywho.services.email.ApplicationConfiguration;
 import com.manywho.services.email.email.attachments.EmailAttachmentManager;
+import com.manywho.services.email.email.decisions.SendEmailDecisionRequest;
 import com.manywho.services.email.types.Contact;
 import org.simplejavamail.email.Email;
 
@@ -12,24 +14,21 @@ import javax.mail.Message;
 import javax.mail.util.ByteArrayDataSource;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 public class EmailFactory {
 
     private UriInfo uriInfo;
     private final EmailAttachmentManager attachmentManager;
-    private Base64.Encoder encoder;
 
 
     @Inject
     public EmailFactory(EmailAttachmentManager attachmentManager, @Context UriInfo uriInfo) {
         this.attachmentManager = attachmentManager;
         this.uriInfo = uriInfo;
-        encoder = Base64.getUrlEncoder().withoutPadding();
     }
 
     Email createEmail(ApplicationConfiguration configuration, SendEmail sendEmail) {
@@ -69,7 +68,7 @@ public class EmailFactory {
         return email;
     }
 
-    Email createEmailDecisionRequest(ApplicationConfiguration configuration, Contact contact, SendEmailDecisionRequest.Input sendEmail, String token, List<OutcomeAvailable> outcomes) {
+    public Email createEmailDecisionRequest(ApplicationConfiguration configuration, Contact contact, SendEmailDecisionRequest.Input sendEmail, UUID token, List<OutcomeAvailable> outcomes) {
         final Email email = new Email();
 
         email.addRecipient(contact.getName(), contact.getEmail(), Message.RecipientType.TO);
@@ -100,19 +99,20 @@ public class EmailFactory {
         return email;
     }
 
-    private void addLinkForChoices(StringBuilder stringBuilder, List<OutcomeAvailable> outcomeAvailables, String token) {
-        URI uri = uriInfo.getBaseUri();
-
+    private void addLinkForChoices(StringBuilder stringBuilder, List<OutcomeAvailable> outcomeAvailables, UUID token) {
         if (outcomeAvailables.isEmpty() == false) {
             stringBuilder.append("<br/><br/>");
         }
 
         for (OutcomeAvailable outcome: outcomeAvailables) {
+            String decisionLinkName = outcome.getLabel();
 
-            String encodeTag = encoder.encodeToString(outcome.getDeveloperName().getBytes());
+            if (decisionLinkName.isEmpty()) {
+                decisionLinkName = outcome.getDeveloperName();
+            }
 
-            String link = String.format("<a href=\"%scallback/response/%s/%s\"> %s </a> &nbsp;", uri.toString(),
-                    token, encodeTag, outcome.getDeveloperName());
+            String link = String.format("<a href=\"%scallback/response/%s/%s\"> %s </a> &nbsp;", uriInfo.getBaseUri(),
+                    token, UrlEscapers.urlPathSegmentEscaper().escape(outcome.getDeveloperName()), decisionLinkName);
 
             stringBuilder.append(link);
         }

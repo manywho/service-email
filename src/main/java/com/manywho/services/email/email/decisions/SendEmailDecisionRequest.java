@@ -1,4 +1,4 @@
-package com.manywho.services.email.email;
+package com.manywho.services.email.email.decisions;
 
 import com.google.common.collect.Lists;
 import com.manywho.sdk.api.ContentType;
