@@ -5,6 +5,7 @@ import com.google.common.net.UrlEscapers;
 import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
 import com.manywho.services.email.ApplicationConfiguration;
 import com.manywho.services.email.email.attachments.EmailAttachmentManager;
+import com.manywho.services.email.email.decisions.DecisionBodyBuilder;
 import com.manywho.services.email.email.decisions.SendEmailDecisionRequest;
 import com.manywho.services.email.types.Contact;
 import org.simplejavamail.email.Email;
@@ -21,14 +22,14 @@ import java.util.UUID;
 
 public class EmailFactory {
 
-    private UriInfo uriInfo;
     private final EmailAttachmentManager attachmentManager;
+    private final DecisionBodyBuilder decisionBodyBuilder;
 
 
     @Inject
-    public EmailFactory(EmailAttachmentManager attachmentManager, @Context UriInfo uriInfo) {
+    public EmailFactory(EmailAttachmentManager attachmentManager, DecisionBodyBuilder decisionBodyBuilder) {
         this.attachmentManager = attachmentManager;
-        this.uriInfo = uriInfo;
+        this.decisionBodyBuilder = decisionBodyBuilder;
     }
 
     Email createEmail(ApplicationConfiguration configuration, SendEmail sendEmail) {
@@ -80,43 +81,24 @@ public class EmailFactory {
                     .forEach(file -> email.addAttachment(file.getName(), new ByteArrayDataSource(file.getFileData(), file.getMimeType())));
         }
 
-        StringBuilder bodyHtml = new StringBuilder();
+        String bodyHtml = decisionBodyBuilder.bodyBuilderHtml(sendEmail.getHtmlBody(), outcomes, token);
 
-        if (sendEmail.getHtmlBody() != null) {
-            bodyHtml.append(sendEmail.getBody());
+        if (bodyHtml != null) {
+            email.setTextHTML(bodyHtml);
         }
 
-        addLinkForChoices(bodyHtml, outcomes, token);
+        String bodyText = decisionBodyBuilder.bodyBuilderText(sendEmail.getBody(), outcomes, token);
 
-        if (bodyHtml.toString().isEmpty() == false) {
-            email.setTextHTML(bodyHtml.toString());
+        if (bodyText != null) {
+            email.setText(bodyText);
         }
 
         email.setFromAddress(sendEmail.getFrom().getName(), sendEmail.getFrom().getEmail());
         email.setSubject(sendEmail.getSubject());
-        email.setText(sendEmail.getBody());
 
         return email;
     }
 
-    private void addLinkForChoices(StringBuilder stringBuilder, List<OutcomeAvailable> outcomeAvailables, UUID token) {
-        if (outcomeAvailables.isEmpty() == false) {
-            stringBuilder.append("<br/><br/>");
-        }
-
-        for (OutcomeAvailable outcome: outcomeAvailables) {
-            String decisionLinkName = outcome.getLabel();
-
-            if (decisionLinkName.isEmpty()) {
-                decisionLinkName = outcome.getDeveloperName();
-            }
-
-            String link = String.format("<a href=\"%scallback/response/%s/%s\"> %s </a> &nbsp;", uriInfo.getBaseUri(),
-                    token, UrlEscapers.urlPathSegmentEscaper().escape(outcome.getDeveloperName()), decisionLinkName);
-
-            stringBuilder.append(link);
-        }
-    }
 
     Email createEmailSimple(SendEmailSimple sendEmail, String defaultFrom) {
         final Email email = new Email();
