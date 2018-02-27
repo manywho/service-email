@@ -1,19 +1,26 @@
 package com.manywho.services.email.controllers;
 
 import com.manywho.services.email.test.EmailServiceFunctionalTest;
+import org.jboss.resteasy.mock.MockHttpRequest;
+import org.jboss.resteasy.mock.MockHttpResponse;
 import org.junit.Test;
-import javax.ws.rs.core.Response;
+
+import javax.ws.rs.core.MediaType;
 
 public class DescribeControllerTest extends EmailServiceFunctionalTest {
     @Test
-    public void testDescribeServiceResponse() throws Exception {
-        Response responseMsg = target("/metadata").request()
-                .post(getServerRequestFromFile("DescribeController/metadata1-request.json"));
+    public void testDescribe() throws Exception {
+        MockHttpRequest request = MockHttpRequest.post("/metadata")
+                .content(getFile("DescribeController/describe-request.json"))
+                .contentType(MediaType.APPLICATION_JSON);
 
-        //check the response is right
+        MockHttpResponse response = new MockHttpResponse();
+
+        dispatcher.invoke(request, response);
+
         assertJsonSame(
-                getJsonFormatFileContent("DescribeController/metadata1-response.json"),
-                getJsonFormatResponse(responseMsg)
+                getJsonFormatFileContent("DescribeController/describe-response.json"),
+                response.getContentAsString()
         );
     }
 }

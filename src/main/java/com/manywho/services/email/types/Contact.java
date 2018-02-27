@@ -1,19 +1,16 @@
 package com.manywho.services.email.types;
 
-import com.manywho.sdk.enums.ContentType;
-import com.manywho.sdk.services.annotations.TypeElement;
-import com.manywho.sdk.services.annotations.TypeProperty;
+import com.manywho.sdk.api.ContentType;
+import com.manywho.sdk.services.types.Type;
 import org.hibernate.validator.constraints.Email;
 
-@TypeElement(name = Contact.NAME)
-public class Contact {
-    public static final String NAME = "Contact";
-
-    @TypeProperty(name = "Name", contentType = ContentType.String, bound = false)
+@Type.Element(name = "Contact", summary = "The Contact object structure")
+public class Contact implements Type {
+    @Type.Property(name = "Name", contentType = ContentType.String, bound = false)
     private String name;
 
     @Email(message = "An invalid email address was given")
-    @TypeProperty(name = "Email", contentType = ContentType.String, bound = false)
+    @Type.Property(name = "Email", contentType = ContentType.String, bound = false)
     private String email;
 
     public String getName() {
