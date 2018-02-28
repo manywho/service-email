@@ -1,0 +1,13 @@
+{
+  "token": "51846b52-e9eb-4e6c-9f27-e2f6dc0213ba",
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+  "culture": null,
+  "annotations": {},
+  "invokeType": "WAIT",
+  "waitMessage": null,
+  "outputs": [],
+  "selectedOutcomeId": null,
+  "rootFaults": {},
+  "valueFaults": [],
+  "mode": null
+}

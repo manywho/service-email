@@ -10,10 +10,11 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.simplejavamail.MailException;
 import org.simplejavamail.email.Email;
-
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
+import java.util.Collections;
 import java.util.UUID;
-
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -71,6 +72,70 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
         assertEquals("bcc@manywho.com", capturedEmail.getRecipients().get(2).getAddress());
 
         assertEquals(3, capturedEmail.getRecipients().size());
+    }
+
+    @Test
+    public void testSendEmailWithDecision() throws Exception {
+        ArgumentCaptor<ApplicationConfiguration> argumentCaptorConfiguration = ArgumentCaptor.forClass(ApplicationConfiguration.class);
+        ArgumentCaptor<Email> argumentCaptorEmail = ArgumentCaptor.forClass(Email.class);
+
+        when(mailerFactory.createMailer(argumentCaptorConfiguration.capture())).thenReturn(mailer);
+
+        when(tokenGenerator.generateRandomUUID()).thenReturn(UUID.fromString("67204d5c-6022-474d-8f80-0d576b43d02d"));
+
+        String authorizationSerialized = injector.getInstance(AuthorizationEncoder.class).encode(AuthenticatedWho.createPublicUser(UUID.fromString("67204d5c-6022-474d-8f80-0d576b43d02d")));
+
+        MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
+        headers.put("Authorization", Collections.singletonList(authorizationSerialized));
+
+        when(httpHeadersTest.getRequestHeaders()).thenReturn(headers);
+
+        MockHttpRequest request = MockHttpRequest.post("/actions/email-choices")
+                .content(getFile("SendEmailController/decision/request-send-email.json"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", authorizationSerialized);
+
+        MockHttpResponse response = new MockHttpResponse();
+
+        dispatcher.invoke(request, response);
+
+        String result = mockJedisPool.getResource().get("service:email:requests:67204d5c-6022-474d-8f80-0d576b43d02d");
+        assertJsonSame(getJsonFormatFileContent("SendEmailController/decision/persistence.json"), result);
+
+        //check the response is right
+        assertJsonSame(
+                getJsonFormatFileContent("SendEmailController/decision/response-send-email.json"),
+                response.getContentAsString()
+        );
+
+        verify(mailer).sendMail(argumentCaptorEmail.capture(), false);
+
+        ApplicationConfiguration capturedConfiguration = argumentCaptorConfiguration.getValue();
+        assertEquals(587, Math.toIntExact(capturedConfiguration.getPort()));
+        assertEquals("tls", capturedConfiguration.getTransport());
+        assertEquals("smtp.example.com", capturedConfiguration.getHost());
+        assertEquals("test@mailaccount.com", capturedConfiguration.getUsername());
+
+        Email capturedEmail = argumentCaptorEmail.getValue();
+
+        assertEquals(
+                "email text body\r\n\r\ngo - nullcallback/response/67204d5c-6022-474d-8f80-0d576b43d02d/go \r\n\r\n",
+                capturedEmail.getText()
+        );
+
+        assertEquals(
+                "<p> Hello World HTML!</p><br/><br/><a href=\"nullcallback/response/67204d5c-6022-474d-8f80-0d576b43d02d/go\"> go </a> &nbsp;",
+                argumentCaptorEmail.getValue().getTextHTML()
+        );
+        assertEquals("Test Subject", capturedEmail.getSubject());
+
+        assertEquals("Test ManyWho", capturedEmail.getFromRecipient().getName());
+        assertEquals("test@manywho.com", capturedEmail.getFromRecipient().getAddress());
+
+        assertEquals("Test To", capturedEmail.getRecipients().get(0).getName());
+        assertEquals("to@manywho.com", capturedEmail.getRecipients().get(0).getAddress());
+
+        assertEquals(1, capturedEmail.getRecipients().size());
     }
 
     @Test

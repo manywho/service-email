@@ -28,23 +28,25 @@ public class SendEmailDecisionRequestCommand implements ActionCommand<Applicatio
     private final ServiceConfiguration serviceConfiguration;
     private EmailDecisionRepository emailDecisionRepository;
     private AuthenticatedWhoProvider authenticatedWhoProvider;
+    private TokenGenerator tokenGenerator;
 
     @Inject
     public SendEmailDecisionRequestCommand(EmailManager emailManager, EmailFactory emailFactory, AmazonS3 amazonS3,
                                            ServiceConfiguration serviceConfiguration, EmailDecisionRepository emailDecisionRepository,
-                                           AuthenticatedWhoProvider authenticatedWhoProvider) {
+                                           AuthenticatedWhoProvider authenticatedWhoProvider, TokenGenerator tokenGenerator) {
         this.emailManager = emailManager;
         this.emailFactory = emailFactory;
         this.amazonS3 = amazonS3;
         this.serviceConfiguration = serviceConfiguration;
         this.emailDecisionRepository = emailDecisionRepository;
         this.authenticatedWhoProvider = authenticatedWhoProvider;
+        this.tokenGenerator = tokenGenerator;
     }
 
     @Override
     public ActionResponse<SendEmailDecisionRequest.Output> execute(ApplicationConfiguration configuration, ServiceRequest request, SendEmailDecisionRequest.Input inputs) {
         for (Contact to:inputs.getTo()) {
-            UUID uuid = UUID.randomUUID();
+            UUID uuid = tokenGenerator.generateRandomUUID();
 
             Email email = emailFactory.createEmailDecisionRequest(configuration, to, inputs, uuid, request.getOutcomes());
             emailManager.send(configuration, email, request.isDebugMode());
