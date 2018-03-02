@@ -1,0 +1,32 @@
+{
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+  "token": "51846b52-e9eb-4e6c-9f27-e2f6dc0213ba",
+  "stateId": "340279d0-350c-4886-9af8-86ebeda0bd71",
+  "email": "to@manywho.com",
+  "authenticatedWho": {
+    "manyWhoUserId": "52df1a90-3826-4508-b7c2-cde8aa5b72cf",
+    "manyWhoTenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+    "manyWhoToken": "null",
+    "geolocation": null,
+    "userId": "PUBLIC_USER",
+    "username": "null",
+    "email": "admin@manywho.com",
+    "identityProvider": "NONE",
+    "token": "NONE",
+    "tenantName": "UNKNOWN",
+    "directoryName": "UNKNOWN",
+    "directoryId": "UNAUTHENTICATED",
+    "firstName": "null",
+    "lastName": "null",
+    "roleName": "null",
+    "roleId": "null",
+    "primaryGroupName": "null",
+    "primaryGroupId": "null"
+  },
+  "outcomeAvailables": [{
+    "id": "05b326b8-fd07-4909-80f1-7e1e1ecce6bf",
+    "developerName": "go",
+    "label": "go",
+    "order": 0
+  }]
+}

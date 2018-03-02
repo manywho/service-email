@@ -17,7 +17,10 @@ import java.util.Collections;
 import java.util.UUID;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 
 public class SendEmailControllerTest extends EmailServiceFunctionalTest {
     @Test

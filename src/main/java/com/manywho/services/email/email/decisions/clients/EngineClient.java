@@ -1,6 +1,5 @@
 package com.manywho.services.email.email.decisions.clients;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.api.InvokeType;
 import com.manywho.sdk.api.run.EngineInvokeResponse;
@@ -19,13 +18,11 @@ import java.util.List;
 public class EngineClient {
 
     private RunClient runClient;
-    private ObjectMapper objectMapper;
     private AuthorizationEncoder authorizationEncoder;
 
     @Inject
-    public EngineClient(RunClient runClient, ObjectMapper objectMapper, AuthorizationEncoder authorizationEncoder) {
+    public EngineClient(RunClient runClient, AuthorizationEncoder authorizationEncoder) {
         this.runClient = runClient;
-        this.objectMapper = objectMapper;
         this.authorizationEncoder = authorizationEncoder;
     }
 

@@ -19,6 +19,7 @@ import com.manywho.services.email.ApplicationModule;
 import com.manywho.services.email.configuration.ServiceConfiguration;
 import com.manywho.services.email.configuration.ServiceConfigurationDefault;
 import com.manywho.services.email.email.MailerFactory;
+import com.manywho.services.email.email.decisions.ReceiveDecision;
 import com.manywho.services.email.email.decisions.TokenGenerator;
 import com.manywho.services.email.guice.JedisPoolProvider;
 import com.manywho.services.email.guice.RunClientProvider;
@@ -59,7 +60,7 @@ public class EmailServiceFunctionalTest {
     private AuthenticatedWhoProvider authenticatedWhoProvider;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mailerFactory = Mockito.mock(MailerFactory.class);
         mailer = Mockito.mock(Mailer.class);
         amazonS3 = Mockito.mock(AmazonS3.class);
@@ -86,6 +87,7 @@ public class EmailServiceFunctionalTest {
         dispatcher.getRegistry().addSingletonResource(injector.getInstance(DefaultActionController.class));
         dispatcher.getRegistry().addSingletonResource(injector.getInstance(DefaultFileController.class));
         dispatcher.getRegistry().addSingletonResource(injector.getInstance(DefaultDescribeController.class));
+        dispatcher.getRegistry().addSingletonResource(injector.getInstance(ReceiveDecision.class));
 
         Reflections reflections = injector.getInstance(Reflections.class);
 
