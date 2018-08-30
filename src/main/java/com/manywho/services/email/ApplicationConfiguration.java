@@ -10,10 +10,10 @@ public class ApplicationConfiguration implements Configuration {
     @Configuration.Setting(name = "Port", contentType = ContentType.Number)
     private Integer port;
 
-    @Configuration.Setting(name = "Username", contentType = ContentType.String)
+    @Configuration.Setting(name = "Username", contentType = ContentType.String, required = false)
     private String username;
 
-    @Configuration.Setting(name = "Password", contentType = ContentType.Password)
+    @Configuration.Setting(name = "Password", contentType = ContentType.Password, required = false)
     private String password;
 
     @Configuration.Setting(name = "Transport", contentType = ContentType.String)

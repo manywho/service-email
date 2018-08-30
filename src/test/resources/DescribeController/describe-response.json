@@ -32,7 +32,7 @@
       "contentType": "ContentString",
       "typeElementDeveloperName": null,
       "ordinal": 0,
-      "required": true
+      "required": false
     },
     {
       "developerName": "Password",
@@ -40,7 +40,7 @@
       "contentType": "ContentPassword",
       "typeElementDeveloperName": null,
       "ordinal": 0,
-      "required": true
+      "required": false
     },
     {
       "developerName": "Transport",
