@@ -8,18 +8,21 @@ import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.simplejavamail.MailException;
 import org.simplejavamail.email.Email;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
 import java.util.Collections;
 import java.util.UUID;
+
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class SendEmailControllerTest extends EmailServiceFunctionalTest {
@@ -92,6 +95,11 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
         headers.put("Authorization", Collections.singletonList(authorizationSerialized));
 
         when(httpHeadersTest.getRequestHeaders()).thenReturn(headers);
+        UriBuilder mockUribuilder = Mockito.mock(UriBuilder.class);
+        URI uri = new URI("https://test.com/api/");
+        when(mockUribuilder.build()).thenReturn(uri);
+
+        when(uriInfo.getBaseUriBuilder()).thenReturn(mockUribuilder);
 
         MockHttpRequest request = MockHttpRequest.post("/actions/email-choices")
                 .content(getFile("SendEmailController/decision/request-send-email.json"))
@@ -122,12 +130,12 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
         Email capturedEmail = argumentCaptorEmail.getValue();
 
         assertEquals(
-                "email text body\r\n\r\ngo - nullcallback/response/67204d5c-6022-474d-8f80-0d576b43d02d/go \r\n\r\n",
+                "email text body\r\n\r\ngo - https://test.com/api/callback/response/67204d5c-6022-474d-8f80-0d576b43d02d/go \r\n\r\n",
                 capturedEmail.getText()
         );
 
         assertEquals(
-                "<p> Hello World HTML!</p><br/><br/><a href=\"nullcallback/response/67204d5c-6022-474d-8f80-0d576b43d02d/go\"> go </a> &nbsp;",
+                "<p> Hello World HTML!</p><br/><br/><a href=\"https://test.com/api/callback/response/67204d5c-6022-474d-8f80-0d576b43d02d/go\"> go </a> &nbsp;",
                 argumentCaptorEmail.getValue().getTextHTML()
         );
         assertEquals("Test Subject", capturedEmail.getSubject());

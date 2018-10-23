@@ -3,8 +3,10 @@ package com.manywho.services.email.email.decisions;
 import com.google.common.base.Strings;
 import com.google.common.net.UrlEscapers;
 import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
+
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.UUID;
@@ -51,11 +53,15 @@ public class DecisionBodyBuilder {
                 decisionLinkName = outcome.getDeveloperName();
             }
 
+            UriBuilder uri = uriInfo.getBaseUriBuilder();
+            uri.scheme("https");
+
+
             if (flagText) {
-                stringBuilder.append(String.format("%s - %scallback/response/%s/%s \r\n\r\n", decisionLinkName, uriInfo.getBaseUri(),
+                stringBuilder.append(String.format("%s - %scallback/response/%s/%s \r\n\r\n", decisionLinkName, uri.build() ,
                         token, UrlEscapers.urlPathSegmentEscaper().escape(outcome.getDeveloperName())));
             } else {
-                stringBuilder.append(String.format("<a href=\"%scallback/response/%s/%s\"> %s </a> &nbsp;", uriInfo.getBaseUri(),
+                stringBuilder.append(String.format("<a href=\"%scallback/response/%s/%s\"> %s </a> &nbsp;", uri.build() ,
                         token, UrlEscapers.urlPathSegmentEscaper().escape(outcome.getDeveloperName()), decisionLinkName));
             }
         }
