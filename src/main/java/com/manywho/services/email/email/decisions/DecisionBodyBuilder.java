@@ -6,17 +6,21 @@ import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
 public class DecisionBodyBuilder {
     private UriInfo uriInfo;
+    private HttpHeaders headers;
 
     @Inject
-    public DecisionBodyBuilder(@Context UriInfo uriInfo) {
+    public DecisionBodyBuilder(@Context UriInfo uriInfo, @Context HttpHeaders headers) {
         this.uriInfo = uriInfo;
+        this.headers = headers;
     }
 
     public String bodyBuilderHtml(String body, List<OutcomeAvailable> outcomes, UUID token) {
@@ -53,19 +57,34 @@ public class DecisionBodyBuilder {
                 decisionLinkName = outcome.getDeveloperName();
             }
 
-            UriBuilder uri = uriInfo.getBaseUriBuilder();
-            uri.scheme("https");
-
-
             if (flagText) {
-                stringBuilder.append(String.format("%s - %scallback/response/%s/%s \r\n\r\n", decisionLinkName, uri.build() ,
+                stringBuilder.append(String.format("%s - %scallback/response/%s/%s \r\n\r\n", decisionLinkName, baseUri() ,
                         token, UrlEscapers.urlPathSegmentEscaper().escape(outcome.getDeveloperName())));
             } else {
-                stringBuilder.append(String.format("<a href=\"%scallback/response/%s/%s\"> %s </a> &nbsp;", uri.build() ,
+                stringBuilder.append(String.format("<a href=\"%scallback/response/%s/%s\"> %s </a> &nbsp;", baseUri() ,
                         token, UrlEscapers.urlPathSegmentEscaper().escape(outcome.getDeveloperName()), decisionLinkName));
             }
         }
 
         return stringBuilder.toString();
+    }
+
+    /**
+     * if there is a header with X-Forwarded-Proto will use the protocol indicated there, if there isn't then
+     * it will use the one in uriInfo
+     *
+     * @return
+     */
+    private URI baseUri() {
+        String protocol = headers.getRequestHeaders().getFirst("X-Forwarded-Proto");
+
+        if (Strings.isNullOrEmpty(protocol) == false) {
+            UriBuilder uri = uriInfo.getBaseUriBuilder();
+            uri.scheme(protocol);
+
+            return uri.build();
+        } else {
+            return uriInfo.getBaseUri();
+        }
     }
 }

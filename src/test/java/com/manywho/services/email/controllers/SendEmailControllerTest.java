@@ -99,7 +99,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
         URI uri = new URI("https://test.com/api/");
         when(mockUribuilder.build()).thenReturn(uri);
 
-        when(uriInfo.getBaseUriBuilder()).thenReturn(mockUribuilder);
+        when(uriInfo.getBaseUri()).thenReturn(new URI("https://test.com/api/"));
 
         MockHttpRequest request = MockHttpRequest.post("/actions/email-choices")
                 .content(getFile("SendEmailController/decision/request-send-email.json"))

@@ -26,8 +26,6 @@ If you want to support uploading attachments or fetching them from an external s
 configuration file for the service by running the provided `build.xml` script with Ant, and passing in any required
 credentials for the desired source.
 
-This service require to be running under https, the decision functionality will not work properly if it doesn't.
-
 ##### Example: Configuring the service to store attachments in S3
 
 An S3 bucket will need to be created, along with an IAM user with `s3:GetObject` permissions on that bucket (along 

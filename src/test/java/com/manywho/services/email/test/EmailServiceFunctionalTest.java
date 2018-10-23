@@ -132,7 +132,7 @@ public class EmailServiceFunctionalTest {
                 bind(UriInfo.class).toProvider(() -> uriInfo);
                 bind(TokenGenerator.class).toProvider(() -> tokenGenerator);
                 bind(AuthenticatedWhoProvider.class).toProvider(() -> authenticatedWhoProvider);
-                bind(HttpHeaders.class).toProvider(() -> httpHeadersTest).in(RequestScoped.class);
+                bind(HttpHeaders.class).toProvider(() -> httpHeadersTest);
 
                 bindScope(RequestScoped.class, new Scope() {
                     @Override
