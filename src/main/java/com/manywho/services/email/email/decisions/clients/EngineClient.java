@@ -10,6 +10,8 @@ import com.manywho.sdk.client.flow.FlowState;
 import com.manywho.sdk.client.run.RunClient;
 import com.manywho.sdk.services.identity.AuthorizationEncoder;
 import com.manywho.services.email.email.decisions.persistence.entities.EmailDecisionRequest;
+import retrofit2.Response;
+
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,14 +30,23 @@ public class EngineClient {
 
     public String sendResponseToEngine(EmailDecisionRequest emailRequest, String stringResponse) {
         try {
-            EngineInvokeResponse engineInvokeResponseCall = runClient.join(emailRequest.getTenantId(), emailRequest.getStateId())
-                    .execute().body();
+            Response<EngineInvokeResponse> response = runClient.join(emailRequest.getTenantId(), emailRequest.getStateId())
+                    .execute();
+
+            if (response.isSuccessful() == false) {
+                throw new RuntimeException(response.message());
+            }
+
+            EngineInvokeResponse engineInvokeResponseCall = response.body();
 
             runClient.callback(authorizationEncoder.encode(emailRequest.getAuthenticatedWho()), emailRequest.getTenantId(),
                     engineValuesToSend(emailRequest, stringResponse)).execute();
 
             FlowState flowState = new FlowState(runClient, emailRequest.getTenantId(), engineInvokeResponseCall);
-            flowState.sync();
+
+            if (engineInvokeResponseCall != null) {
+                flowState.sync();
+            }
 
             return runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body().getJoinFlowUri();
         } catch (IOException e) {
