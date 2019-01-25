@@ -4,10 +4,10 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.fiftyonred.mock_jedis.MockJedisPool;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
+import com.google.inject.Module;
 import com.google.inject.*;
 import com.google.inject.util.Modules;
 import com.manywho.sdk.api.jackson.ObjectMapperFactory;
-import com.manywho.sdk.api.security.AuthenticatedWho;
 import com.manywho.sdk.client.run.RunClient;
 import com.manywho.sdk.services.ServiceApplicationModule;
 import com.manywho.sdk.services.controllers.DefaultActionController;
@@ -17,19 +17,15 @@ import com.manywho.sdk.services.identity.AuthorizationEncoder;
 import com.manywho.sdk.services.providers.AuthenticatedWhoProvider;
 import com.manywho.services.email.ApplicationModule;
 import com.manywho.services.email.configuration.ServiceConfiguration;
-import com.manywho.services.email.configuration.ServiceConfigurationDefault;
 import com.manywho.services.email.email.MailerFactory;
 import com.manywho.services.email.email.decisions.ReceiveDecision;
 import com.manywho.services.email.email.decisions.TokenGenerator;
-import com.manywho.services.email.guice.JedisPoolProvider;
-import com.manywho.services.email.guice.RunClientProvider;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.jboss.resteasy.plugins.guice.RequestScoped;
 import org.json.JSONException;
 import org.junit.Before;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.reflections.Reflections;
 import org.simplejavamail.mailer.Mailer;
@@ -37,11 +33,14 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import redis.clients.jedis.JedisPool;
 
 import javax.ws.rs.Path;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 
 public class EmailServiceFunctionalTest {
 
