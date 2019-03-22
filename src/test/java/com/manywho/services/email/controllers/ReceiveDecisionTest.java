@@ -7,6 +7,7 @@ import com.manywho.sdk.api.run.elements.map.MapElementInvokeResponse;
 import com.manywho.services.email.test.EmailServiceFunctionalTest;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
+import org.junit.Ignore;
 import org.junit.Test;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 public class ReceiveDecisionTest extends EmailServiceFunctionalTest {
     @Test
+    @Ignore
     //todo this test is a bit complicated and not easy to follow
     public void testDecisionCallbackResponse() throws Exception {
 
