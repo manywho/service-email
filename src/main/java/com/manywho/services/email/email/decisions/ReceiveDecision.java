@@ -31,7 +31,7 @@ public class ReceiveDecision {
         LOGGER.info("Receive decision");
         EmailDecisionRequest emailRequest = emailDecisionRepository.getEmailDecisionRequest(code);
         String joinUrl = engineClient.sendResponseToEngine(emailRequest, response);
-        LOGGER.info("joinUrl", joinUrl);
+        LOGGER.info("joinUrl: " + joinUrl);
 
         return Response.seeOther(URI.create(joinUrl)).build();
     }

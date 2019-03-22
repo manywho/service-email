@@ -41,7 +41,7 @@ public class EngineClient {
                     .execute();
 
             if (response.isSuccessful() == false) {
-                LOGGER.error("The response from engine is not successful", objectMapper.writeValueAsString(response.message()));
+                LOGGER.error("The response from engine is not successful: " + objectMapper.writeValueAsString(response.message()));
                 throw new RuntimeException(response.message());
             }
 
@@ -50,17 +50,17 @@ public class EngineClient {
             Response<InvokeType> callbackResponse = runClient.callback(authorizationEncoder.encode(emailRequest.getAuthenticatedWho()), emailRequest.getTenantId(),
                     engineValuesToSend(emailRequest, stringResponse)).execute();
 
-            LOGGER.info("callback response", objectMapper.writeValueAsString(callbackResponse.body()));
+            LOGGER.info("callback response: " + objectMapper.writeValueAsString(callbackResponse.body()));
 
             FlowState flowState = new FlowState(runClient, emailRequest.getTenantId(), engineInvokeResponseCall);
 
             if (engineInvokeResponseCall != null) {
                 flowState.sync();
-                LOGGER.info("flow state", flowState);
+                LOGGER.info("flow state: " + objectMapper.writeValueAsString(flowState));
             }
 
             EngineInvokeResponse invokeResponse = runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body();
-            LOGGER.info("engine join response", invokeResponse);
+            LOGGER.info("engine join response: " + objectMapper.writeValueAsString(invokeResponse));
 
             return invokeResponse.getJoinFlowUri();
         } catch (IOException e) {
