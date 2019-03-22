@@ -33,6 +33,6 @@ public class ReceiveDecision {
         String joinUrl = engineClient.sendResponseToEngine(emailRequest, response);
         LOGGER.info("joinUrl: " + joinUrl);
 
-        return Response.seeOther(URI.create(joinUrl)).build();
+        return Response.temporaryRedirect(URI.create(joinUrl)).build();
     }
 }
