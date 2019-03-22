@@ -1,5 +1,6 @@
 package com.manywho.services.email.email.decisions.clients;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.api.InvokeType;
 import com.manywho.sdk.api.run.EngineInvokeResponse;
@@ -10,6 +11,8 @@ import com.manywho.sdk.client.flow.FlowState;
 import com.manywho.sdk.client.run.RunClient;
 import com.manywho.sdk.services.identity.AuthorizationEncoder;
 import com.manywho.services.email.email.decisions.persistence.entities.EmailDecisionRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import retrofit2.Response;
 
 import javax.inject.Inject;
@@ -21,10 +24,14 @@ public class EngineClient {
 
     private RunClient runClient;
     private AuthorizationEncoder authorizationEncoder;
+    private ObjectMapper objectMapper;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EngineClient.class);
 
     @Inject
-    public EngineClient(RunClient runClient, AuthorizationEncoder authorizationEncoder) {
+    public EngineClient(RunClient runClient, AuthorizationEncoder authorizationEncoder, ObjectMapper objectMapper) {
         this.runClient = runClient;
+        this.objectMapper = objectMapper;
         this.authorizationEncoder = authorizationEncoder;
     }
 
@@ -34,21 +41,28 @@ public class EngineClient {
                     .execute();
 
             if (response.isSuccessful() == false) {
+                LOGGER.error("The response from engine is not successful", objectMapper.writeValueAsString(response.message()));
                 throw new RuntimeException(response.message());
             }
 
             EngineInvokeResponse engineInvokeResponseCall = response.body();
 
-            runClient.callback(authorizationEncoder.encode(emailRequest.getAuthenticatedWho()), emailRequest.getTenantId(),
+            Response<InvokeType> callbackResponse = runClient.callback(authorizationEncoder.encode(emailRequest.getAuthenticatedWho()), emailRequest.getTenantId(),
                     engineValuesToSend(emailRequest, stringResponse)).execute();
+
+            LOGGER.info("callback response", objectMapper.writeValueAsString(callbackResponse.body()));
 
             FlowState flowState = new FlowState(runClient, emailRequest.getTenantId(), engineInvokeResponseCall);
 
             if (engineInvokeResponseCall != null) {
                 flowState.sync();
+                LOGGER.info("flow state", flowState);
             }
 
-            return runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body().getJoinFlowUri();
+            EngineInvokeResponse invokeResponse = runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body();
+            LOGGER.info("engine join response", invokeResponse);
+
+            return invokeResponse.getJoinFlowUri();
         } catch (IOException e) {
             throw new RuntimeException("There was an unexpected error when re-joining the flow", e);
         }
