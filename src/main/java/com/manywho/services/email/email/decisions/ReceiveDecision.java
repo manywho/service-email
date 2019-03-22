@@ -28,10 +28,8 @@ public class ReceiveDecision {
     @Path("/response/{code}/{response}")
     @Produces(MediaType.TEXT_HTML)
     public Response receivedDecisionResponse(@PathParam("code") String code, @PathParam("response") String response) {
-        LOGGER.info("Receive decision");
         EmailDecisionRequest emailRequest = emailDecisionRepository.getEmailDecisionRequest(code);
         String joinUrl = engineClient.sendResponseToEngine(emailRequest, response);
-        LOGGER.info("joinUrl: " + joinUrl);
 
         return Response.temporaryRedirect(URI.create(joinUrl)).build();
     }

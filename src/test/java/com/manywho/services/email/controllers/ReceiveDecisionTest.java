@@ -7,10 +7,10 @@ import com.manywho.sdk.api.run.elements.map.MapElementInvokeResponse;
 import com.manywho.services.email.test.EmailServiceFunctionalTest;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
-import org.junit.Ignore;
 import org.junit.Test;
 import retrofit2.Call;
 import retrofit2.Response;
+
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 
 public class ReceiveDecisionTest extends EmailServiceFunctionalTest {
     @Test
-    @Ignore
     //todo this test is a bit complicated and not easy to follow
     public void testDecisionCallbackResponse() throws Exception {
 
@@ -80,7 +79,7 @@ public class ReceiveDecisionTest extends EmailServiceFunctionalTest {
                         getJsonFormatFileContent("ReceiveDecision/persistence.json"));
 
         dispatcher.invoke(request, response);
-        assertEquals(303, response.getStatus());
+        assertEquals(307, response.getStatus());
         assertEquals("http://urljoin", response.getOutputHeaders().get("Location").get(0).toString());
     }
 }
