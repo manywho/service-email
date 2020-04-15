@@ -53,7 +53,7 @@ public class DecisionBodyBuilder {
         for (OutcomeAvailable outcome: outcomes) {
             String decisionLinkName = outcome.getLabel();
 
-            if (decisionLinkName.isEmpty()) {
+            if (decisionLinkName == null || decisionLinkName.isEmpty()) {
                 decisionLinkName = outcome.getDeveloperName();
             }
 
