@@ -3,6 +3,7 @@ package com.manywho.services.email.email;
 import com.google.common.base.Strings;
 import com.google.common.net.UrlEscapers;
 import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
+import com.manywho.sdk.api.run.elements.map.OutcomeResponse;
 import com.manywho.services.email.ApplicationConfiguration;
 import com.manywho.services.email.email.attachments.EmailAttachmentManager;
 import com.manywho.services.email.email.decisions.DecisionBodyBuilder;
@@ -69,7 +70,7 @@ public class EmailFactory {
         return email;
     }
 
-    public Email createEmailDecisionRequest(ApplicationConfiguration configuration, Contact contact, SendEmailDecisionRequest.Input sendEmail, UUID token, List<OutcomeAvailable> outcomes) {
+    public Email createEmailDecisionRequest(ApplicationConfiguration configuration, Contact contact, SendEmailDecisionRequest.Input sendEmail, UUID token, List<OutcomeResponse> outcomes) {
         final Email email = new Email();
 
         email.addRecipient(contact.getName(), contact.getEmail(), Message.RecipientType.TO);

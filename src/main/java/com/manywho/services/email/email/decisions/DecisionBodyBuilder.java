@@ -3,6 +3,7 @@ package com.manywho.services.email.email.decisions;
 import com.google.common.base.Strings;
 import com.google.common.net.UrlEscapers;
 import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
+import com.manywho.sdk.api.run.elements.map.OutcomeResponse;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
@@ -23,17 +24,17 @@ public class DecisionBodyBuilder {
         this.headers = headers;
     }
 
-    public String bodyBuilderHtml(String body, List<OutcomeAvailable> outcomes, UUID token) {
+    public String bodyBuilderHtml(String body, List<OutcomeResponse> outcomes, UUID token) {
 
         return bodyBuilderInternal(body, outcomes, token, false);
     }
 
-    public String bodyBuilderText(String body, List<OutcomeAvailable> outcomes, UUID token) {
+    public String bodyBuilderText(String body, List<OutcomeResponse> outcomes, UUID token) {
 
         return bodyBuilderInternal(body, outcomes, token, true);
     }
 
-    private String bodyBuilderInternal(String body, List<OutcomeAvailable> outcomes, UUID token, boolean flagText) {
+    private String bodyBuilderInternal(String body, List<OutcomeResponse> outcomes, UUID token, boolean flagText) {
         if (Strings.isNullOrEmpty(body)) {
             return null;
         }

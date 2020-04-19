@@ -1,6 +1,7 @@
 package com.manywho.services.email.email.decisions.persistence.entities;
 
 import com.manywho.sdk.api.run.elements.map.OutcomeAvailable;
+import com.manywho.sdk.api.run.elements.map.OutcomeResponse;
 import com.manywho.sdk.api.security.AuthenticatedWho;
 
 import java.util.List;
@@ -12,12 +13,12 @@ public class EmailDecisionRequest {
     private UUID stateId;
     private String email;
     private AuthenticatedWho authenticatedWho;
-    private List<OutcomeAvailable> outcomeAvailables;
+    private List<OutcomeResponse> outcomeAvailables;
 
     public EmailDecisionRequest() {
     }
 
-    public EmailDecisionRequest(UUID tenantId, String token, String email, UUID stateId, List<OutcomeAvailable> outcomeAvailables,
+    public EmailDecisionRequest(UUID tenantId, String token, String email, UUID stateId, List<OutcomeResponse> outcomeAvailables,
                                 AuthenticatedWho authenticatedWho) {
         this.tenantId = tenantId;
         this.token = token;
@@ -43,7 +44,7 @@ public class EmailDecisionRequest {
         return stateId;
     }
 
-    public List<OutcomeAvailable> getOutcomeAvailables() {
+    public List<OutcomeResponse> getOutcomeAvailables() {
         return outcomeAvailables;
     }
 

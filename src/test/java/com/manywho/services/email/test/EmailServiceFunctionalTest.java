@@ -9,9 +9,10 @@ import com.google.inject.*;
 import com.google.inject.util.Modules;
 import com.manywho.sdk.api.jackson.ObjectMapperFactory;
 import com.manywho.sdk.client.run.RunClient;
+import com.manywho.sdk.services.ServerApplicationModule;
 import com.manywho.sdk.services.ServiceApplicationModule;
 import com.manywho.sdk.services.controllers.DefaultActionController;
-import com.manywho.sdk.services.controllers.DefaultDescribeController;
+import com.manywho.sdk.services.controllers.DefaultDescribeControllerV1;
 import com.manywho.sdk.services.controllers.DefaultFileController;
 import com.manywho.sdk.services.identity.AuthorizationEncoder;
 import com.manywho.sdk.services.providers.AuthenticatedWhoProvider;
@@ -74,7 +75,7 @@ public class EmailServiceFunctionalTest {
 
         final List<Module> modules = Lists.newArrayList();
 
-        modules.add(new ServiceApplicationModule("com.manywho.services.email", true));
+        modules.add(new ServerApplicationModule("com.manywho.services.email"));
         modules.add(new ApplicationModule());
 
         this.injector = Guice.createInjector(
@@ -85,7 +86,7 @@ public class EmailServiceFunctionalTest {
 
         dispatcher.getRegistry().addSingletonResource(injector.getInstance(DefaultActionController.class));
         dispatcher.getRegistry().addSingletonResource(injector.getInstance(DefaultFileController.class));
-        dispatcher.getRegistry().addSingletonResource(injector.getInstance(DefaultDescribeController.class));
+        dispatcher.getRegistry().addSingletonResource(injector.getInstance(DefaultDescribeControllerV1.class));
         dispatcher.getRegistry().addSingletonResource(injector.getInstance(ReceiveDecision.class));
 
         Reflections reflections = injector.getInstance(Reflections.class);

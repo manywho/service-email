@@ -20,6 +20,5 @@ public class ApplicationModule extends AbstractModule {
         bind(ServiceConfiguration.class).to(ServiceConfigurationDefault.class);
         bind(JedisPool.class).toProvider(JedisPoolProvider.class).in(Singleton.class);
         bind(RunClient.class).toProvider(RunClientProvider.class).in(Singleton.class);
-        bind(ObjectMapper.class).toProvider(ObjectMapperProvider.class).in(Singleton.class);
     }
 }

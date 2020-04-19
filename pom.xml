@@ -11,23 +11,34 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <version.manywho.sdk>2.0.0</version.manywho.sdk>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.manywho.sdk</groupId>
             <artifactId>sdk-server-servlet3</artifactId>
-            <version>2.0.0-beta-01</version>
+            <version>${version.manywho.sdk}</version>
         </dependency>
         <dependency>
             <groupId>com.manywho.sdk</groupId>
             <artifactId>sdk-server-undertow</artifactId>
-            <version>2.0.0-beta-01</version>
+            <version>${version.manywho.sdk}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manywho.sdk</groupId>
+            <artifactId>sdk-client</artifactId>
+            <version>${version.manywho.sdk}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>6.3</version>
         </dependency>
         <dependency>
             <groupId>org.simplejavamail</groupId>
@@ -64,6 +75,12 @@
             <version>2.8.1</version>
         </dependency>
         <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.2.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -72,7 +89,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.10.0</version>
+            <version>3.3.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -94,7 +111,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
