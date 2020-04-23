@@ -2,7 +2,7 @@ package com.manywho.services.email.email;
 
 import com.manywho.services.email.ApplicationConfiguration;
 import org.simplejavamail.MailException;
-import org.simplejavamail.email.Email;
+import org.simplejavamail.api.email.Email;
 
 import javax.inject.Inject;
 

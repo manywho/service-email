@@ -29,7 +29,7 @@ import org.json.JSONException;
 import org.junit.Before;
 import org.mockito.Mockito;
 import org.reflections.Reflections;
-import org.simplejavamail.mailer.Mailer;
+import org.simplejavamail.api.mailer.Mailer;
 import org.skyscreamer.jsonassert.JSONAssert;
 import redis.clients.jedis.JedisPool;
 

@@ -2,9 +2,9 @@ package com.manywho.services.email.email;
 
 import com.google.common.base.Strings;
 import com.manywho.services.email.ApplicationConfiguration;
-import org.simplejavamail.mailer.Mailer;
-import org.simplejavamail.mailer.config.ServerConfig;
-import org.simplejavamail.mailer.config.TransportStrategy;
+import org.simplejavamail.api.mailer.Mailer;
+import org.simplejavamail.mailer.MailerBuilder;
+import org.simplejavamail.api.mailer.config.TransportStrategy;
 
 public class MailerFactory {
 
@@ -13,10 +13,10 @@ public class MailerFactory {
 
         switch (configuration.getTransport()) {
             case "plain":
-                transportStrategy = TransportStrategy.SMTP_PLAIN;
+                transportStrategy = TransportStrategy.SMTP;
                 break;
             case "ssl":
-                transportStrategy = TransportStrategy.SMTP_SSL;
+                transportStrategy = TransportStrategy.SMTPS;
                 break;
             case "tls":
             default:
@@ -25,17 +25,23 @@ public class MailerFactory {
         }
 
         if (Strings.isNullOrEmpty(configuration.getUsername()) && Strings.isNullOrEmpty(configuration.getPassword())) {
-            ServerConfig serverConfig = new ServerConfig(configuration.getHost(), configuration.getPort());
-
-            return new Mailer(serverConfig, transportStrategy);
+            return MailerBuilder
+                    .withSMTPServer(
+                            configuration.getHost(),
+                            configuration.getPort()
+                    )
+                    .withTransportStrategy(transportStrategy)
+                    .buildMailer();
         }
 
-        return new Mailer(
-                configuration.getHost(),
-                configuration.getPort(),
-                configuration.getUsername(),
-                configuration.getPassword(),
-                transportStrategy
-        );
+        return MailerBuilder
+                .withSMTPServer(
+                        configuration.getHost(),
+                        configuration.getPort(),
+                        configuration.getUsername(),
+                        configuration.getPassword()
+                )
+                .withTransportStrategy(transportStrategy)
+                .buildMailer();
     }
 }
