@@ -264,7 +264,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
                 response.getContentAsString()
         );
 
-        verify(mailer).sendMail(argumentCaptorEmail.capture(), eq(true));
+        verify(mailer).sendMail(argumentCaptorEmail.capture(), eq(false));
 
         ApplicationConfiguration capturedConfiguration = argumentCaptorConfiguration.getValue();
         assertEquals(587, Math.toIntExact(capturedConfiguration.getPort()));
@@ -300,7 +300,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
         };
 
         doThrow(mailException)
-                .when(mailer).sendMail(any(), eq(true));
+                .when(mailer).sendMail(any(), eq(false));
 
         MockHttpRequest request = MockHttpRequest.post("/actions/email-simple")
                 .content(getFile("SendEmailController/simple-debug-with-errors/request-send-simple-email.json"))
