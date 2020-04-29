@@ -5,11 +5,13 @@ import org.simplejavamail.MailException;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.AsyncResponse;
 import org.simplejavamail.api.mailer.Mailer;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 public class EmailManager {
     private final MailerFactory mailerFactory;
+    final static Logger logger = LoggerFactory.getLogger(EmailManager.class);
 
     @Inject
     public EmailManager(MailerFactory mailerFactory) {
@@ -30,14 +32,14 @@ public class EmailManager {
             AsyncResponse asyncTestConnection = mailer.testConnection(sendAsynchronously);
             if (asyncTestConnection != null) {
                 asyncTestConnection.onException((e) -> {
-                    System.err.println("Connection error: " + e.getMessage());
+                    logger.error("Connection error: {}", e.getMessage(), e);
                 });
             }
 
             AsyncResponse asyncSendMail = mailer.sendMail(email, sendAsynchronously);
             if (asyncSendMail != null) {
                 asyncSendMail.onException((e) -> {
-                    System.err.println("Send mail error: " + e.getMessage());
+                    logger.error("Send mail error: {}", e.getMessage(), e);
                 });
             }
 
