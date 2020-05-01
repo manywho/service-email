@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <version.manywho.sdk>2.0.0</version.manywho.sdk>
+        <version.manywho.sdk>2.0.1</version.manywho.sdk>
     </properties>
 
     <dependencies>
@@ -43,7 +43,12 @@
         <dependency>
             <groupId>org.simplejavamail</groupId>
             <artifactId>simple-java-mail</artifactId>
-            <version>4.1.2</version>
+            <version>6.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>batch-module</artifactId>
+            <version>6.0.3</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>

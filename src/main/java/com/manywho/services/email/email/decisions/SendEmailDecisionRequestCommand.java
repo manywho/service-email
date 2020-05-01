@@ -15,7 +15,8 @@ import com.manywho.services.email.email.EmailManager;
 import com.manywho.services.email.email.decisions.persistence.EmailDecisionRepository;
 import com.manywho.services.email.email.decisions.persistence.entities.EmailDecisionRequest;
 import com.manywho.services.email.types.Contact;
-import org.simplejavamail.email.Email;
+import org.simplejavamail.api.email.Email;
+
 import javax.inject.Inject;
 import java.util.UUID;
 

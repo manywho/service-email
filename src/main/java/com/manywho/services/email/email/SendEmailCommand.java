@@ -9,7 +9,7 @@ import com.manywho.sdk.services.actions.ActionResponse;
 import com.manywho.sdk.services.types.system.$File;
 import com.manywho.services.email.ApplicationConfiguration;
 import com.manywho.services.email.configuration.ServiceConfiguration;
-import org.simplejavamail.email.Email;
+import org.simplejavamail.api.email.Email;
 
 import javax.inject.Inject;
 

@@ -5,7 +5,7 @@ import com.manywho.sdk.api.run.elements.config.ServiceRequest;
 import com.manywho.sdk.services.actions.ActionCommand;
 import com.manywho.sdk.services.actions.ActionResponse;
 import com.manywho.services.email.ApplicationConfiguration;
-import org.simplejavamail.email.Email;
+import org.simplejavamail.api.email.Email;
 
 import javax.inject.Inject;
 

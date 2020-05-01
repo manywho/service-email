@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.simplejavamail.MailException;
-import org.simplejavamail.email.Email;
+import org.simplejavamail.api.email.Email;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
@@ -48,7 +48,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
                 response.getContentAsString()
         );
 
-        verify(mailer).sendMail(argumentCaptorEmail.capture(), false);
+        verify(mailer).sendMail(argumentCaptorEmail.capture(), eq(true));
 
         ApplicationConfiguration capturedConfiguration = argumentCaptorConfiguration.getValue();
         assertEquals(587, Math.toIntExact(capturedConfiguration.getPort()));
@@ -58,10 +58,10 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
 
         Email capturedEmail = argumentCaptorEmail.getValue();
 
-        assertEquals("email text body", capturedEmail.getText());
+        assertEquals("email text body", capturedEmail.getPlainText());
         assertEquals(
                 "<html><title><body>Hello World!</body></title></html>",
-                argumentCaptorEmail.getValue().getTextHTML()
+                argumentCaptorEmail.getValue().getHTMLText()
         );
         assertEquals("Test Subject", capturedEmail.getSubject());
 
@@ -119,7 +119,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
                 response.getContentAsString()
         );
 
-        verify(mailer).sendMail(argumentCaptorEmail.capture(), false);
+        verify(mailer).sendMail(argumentCaptorEmail.capture(), eq(true));
 
         ApplicationConfiguration capturedConfiguration = argumentCaptorConfiguration.getValue();
         assertEquals(587, Math.toIntExact(capturedConfiguration.getPort()));
@@ -131,12 +131,12 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
 
         assertEquals(
                 "email text body\r\n\r\ngo - https://test.com/api/callback/response/67204d5c-6022-474d-8f80-0d576b43d02d/go \r\n\r\n",
-                capturedEmail.getText()
+                capturedEmail.getPlainText()
         );
 
         assertEquals(
                 "<p> Hello World HTML!</p><br/><br/><a href=\"https://test.com/api/callback/response/67204d5c-6022-474d-8f80-0d576b43d02d/go\"> go </a> &nbsp;",
-                argumentCaptorEmail.getValue().getTextHTML()
+                argumentCaptorEmail.getValue().getHTMLText()
         );
         assertEquals("Test Subject", capturedEmail.getSubject());
 
@@ -171,7 +171,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
                 response.getContentAsString()
         );
 
-        verify(mailer).sendMail(argumentCaptorEmail.capture(), false);
+        verify(mailer).sendMail(argumentCaptorEmail.capture(), eq(true));
 
         ApplicationConfiguration capturedConfiguration = argumentCaptorConfiguration.getValue();
         assertEquals(587, Math.toIntExact(capturedConfiguration.getPort()));
@@ -181,10 +181,10 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
 
         Email capturedEmail = argumentCaptorEmail.getValue();
 
-        assertEquals("email text body", argumentCaptorEmail.getValue().getText());
+        assertEquals("email text body", argumentCaptorEmail.getValue().getPlainText());
         assertEquals(
                 "<html><title><body>Hello World!</body></title></html>",
-                argumentCaptorEmail.getValue().getTextHTML()
+                argumentCaptorEmail.getValue().getHTMLText()
         );
         assertEquals("Test Subject", capturedEmail.getSubject());
 
@@ -219,7 +219,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
                 response.getContentAsString()
         );
 
-        verify(mailer).sendMail(argumentCaptorEmail.capture(), false);
+        verify(mailer).sendMail(argumentCaptorEmail.capture(), eq(true));
 
         ApplicationConfiguration capturedConfiguration = argumentCaptorConfiguration.getValue();
         assertEquals(587, Math.toIntExact(capturedConfiguration.getPort()));
@@ -229,7 +229,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
 
         Email capturedEmail = argumentCaptorEmail.getValue();
 
-        assertEquals("Email body", capturedEmail.getTextHTML());
+        assertEquals("Email body", capturedEmail.getHTMLText());
         assertEquals("Email subject", capturedEmail.getSubject());
 
         assertEquals("test@mailaccount.com", capturedEmail.getFromRecipient().getName());
@@ -264,7 +264,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
                 response.getContentAsString()
         );
 
-        verify(mailer).sendMail(argumentCaptorEmail.capture(), true);
+        verify(mailer).sendMail(argumentCaptorEmail.capture(), eq(false));
 
         ApplicationConfiguration capturedConfiguration = argumentCaptorConfiguration.getValue();
         assertEquals(587, Math.toIntExact(capturedConfiguration.getPort()));
@@ -274,7 +274,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
 
         Email capturedEmail = argumentCaptorEmail.getValue();
 
-        assertEquals("Email body", capturedEmail.getTextHTML());
+        assertEquals("Email body", capturedEmail.getHTMLText());
         assertEquals("Email subject", capturedEmail.getSubject());
 
         assertEquals("test@mailaccount.com", capturedEmail.getFromRecipient().getName());
@@ -300,7 +300,7 @@ public class SendEmailControllerTest extends EmailServiceFunctionalTest {
         };
 
         doThrow(mailException)
-                .when(mailer).sendMail(any(), false);
+                .when(mailer).sendMail(any(), eq(false));
 
         MockHttpRequest request = MockHttpRequest.post("/actions/email-simple")
                 .content(getFile("SendEmailController/simple-debug-with-errors/request-send-simple-email.json"))
