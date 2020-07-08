@@ -41,6 +41,10 @@ public class ApplicationConfiguration implements Configuration {
         return host;
     }
 
+    public void setHost(String host) {
+        this.host = host;
+    }
+
     public Integer getPort() {
         return port;
     }
@@ -55,6 +59,10 @@ public class ApplicationConfiguration implements Configuration {
 
     public String getTransport() {
         return transport;
+    }
+
+    public void setTransport(String transport) {
+        this.transport = transport;
     }
 
     public AttachmentSource getAttachmentSource() {
@@ -88,7 +96,6 @@ public class ApplicationConfiguration implements Configuration {
     public void setS3SecretKey(String s3SecretKey) {
         this.s3SecretKey = s3SecretKey;
     }
-
 
     public String getS3Region() {
         return s3Region;
