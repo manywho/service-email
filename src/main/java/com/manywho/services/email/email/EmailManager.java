@@ -10,8 +10,9 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 public class EmailManager {
+    private final static Logger LOGGER = LoggerFactory.getLogger(EmailManager.class);
+
     private final MailerFactory mailerFactory;
-    final static Logger logger = LoggerFactory.getLogger(EmailManager.class);
 
     @Inject
     public EmailManager(MailerFactory mailerFactory) {
@@ -29,20 +30,16 @@ public class EmailManager {
         Mailer mailer = mailerFactory.createMailer(configuration);
 
         try {
-            AsyncResponse asyncTestConnection = mailer.testConnection(sendAsynchronously);
-            if (asyncTestConnection != null) {
-                asyncTestConnection.onException((e) -> {
-                    logger.error("Connection error: {}", e.getMessage(), e);
-                });
-            }
-
             AsyncResponse asyncSendMail = mailer.sendMail(email, sendAsynchronously);
+
             if (asyncSendMail != null) {
+                // Make sure the SMTP connection pools are completely shut down after sending
+                asyncSendMail.onSuccess(mailer::shutdownConnectionPool);
                 asyncSendMail.onException((e) -> {
-                    logger.error("Send mail error: {}", e.getMessage(), e);
+                    LOGGER.error("Send mail error: {}", e.getMessage(), e);
+                    mailer.shutdownConnectionPool();
                 });
             }
-
         } catch (MailException e) {
             throw new RuntimeException("Unable to send email: " + e.getMessage(), e);
         }
