@@ -10,6 +10,7 @@ import org.jboss.resteasy.mock.MockHttpResponse;
 import org.junit.Test;
 import retrofit2.Call;
 import retrofit2.Response;
+
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,7 @@ public class ReceiveDecisionTest extends EmailServiceFunctionalTest {
                         getJsonFormatFileContent("ReceiveDecision/persistence.json"));
 
         dispatcher.invoke(request, response);
-        assertEquals(303, response.getStatus());
+        assertEquals(307, response.getStatus());
         assertEquals("http://urljoin", response.getOutputHeaders().get("Location").get(0).toString());
     }
 }

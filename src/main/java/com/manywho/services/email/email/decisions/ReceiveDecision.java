@@ -3,6 +3,9 @@ package com.manywho.services.email.email.decisions;
 import com.manywho.services.email.email.decisions.clients.EngineClient;
 import com.manywho.services.email.email.decisions.persistence.EmailDecisionRepository;
 import com.manywho.services.email.email.decisions.persistence.entities.EmailDecisionRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -13,6 +16,7 @@ import java.net.URI;
 public class ReceiveDecision {
     private EngineClient engineClient;
     private EmailDecisionRepository emailDecisionRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReceiveDecision.class);
 
     @Inject
     public ReceiveDecision(EmailDecisionRepository emailDecisionRepository, EngineClient engineClient) {
@@ -27,6 +31,6 @@ public class ReceiveDecision {
         EmailDecisionRequest emailRequest = emailDecisionRepository.getEmailDecisionRequest(code);
         String joinUrl = engineClient.sendResponseToEngine(emailRequest, response);
 
-        return Response.seeOther(URI.create(joinUrl)).build();
+        return Response.temporaryRedirect(URI.create(joinUrl)).build();
     }
 }

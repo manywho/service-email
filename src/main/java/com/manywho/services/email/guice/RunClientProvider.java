@@ -19,7 +19,7 @@ public class RunClientProvider implements Provider<RunClient>{
     public RunClient get() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper))
-                .baseUrl("https://flow.manywho.com")
+                .baseUrl("https://flow.boomi.com")
                 .build();
 
         return retrofit.create(RunClient.class);

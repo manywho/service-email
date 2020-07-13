@@ -10,6 +10,8 @@ import com.manywho.sdk.client.flow.FlowState;
 import com.manywho.sdk.client.run.RunClient;
 import com.manywho.sdk.services.identity.AuthorizationEncoder;
 import com.manywho.services.email.email.decisions.persistence.entities.EmailDecisionRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import retrofit2.Response;
 
 import javax.inject.Inject;
@@ -21,6 +23,7 @@ public class EngineClient {
 
     private RunClient runClient;
     private AuthorizationEncoder authorizationEncoder;
+    private static final Logger LOGGER = LoggerFactory.getLogger(EngineClient.class);
 
     @Inject
     public EngineClient(RunClient runClient, AuthorizationEncoder authorizationEncoder) {
@@ -34,12 +37,13 @@ public class EngineClient {
                     .execute();
 
             if (response.isSuccessful() == false) {
+                LOGGER.error("The response from engine is not successful: "+ response.message());
                 throw new RuntimeException(response.message());
             }
 
             EngineInvokeResponse engineInvokeResponseCall = response.body();
 
-            runClient.callback(authorizationEncoder.encode(emailRequest.getAuthenticatedWho()), emailRequest.getTenantId(),
+            Response<InvokeType> callbackResponse = runClient.callback(authorizationEncoder.encode(emailRequest.getAuthenticatedWho()), emailRequest.getTenantId(),
                     engineValuesToSend(emailRequest, stringResponse)).execute();
 
             FlowState flowState = new FlowState(runClient, emailRequest.getTenantId(), engineInvokeResponseCall);
@@ -48,7 +52,9 @@ public class EngineClient {
                 flowState.sync();
             }
 
-            return runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body().getJoinFlowUri();
+            EngineInvokeResponse invokeResponse = runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body();
+
+            return invokeResponse.getJoinFlowUri();
         } catch (IOException e) {
             throw new RuntimeException("There was an unexpected error when re-joining the flow", e);
         }
