@@ -44,10 +44,6 @@ public class EngineClient {
 
             FlowState flowState = new FlowState(runClient, emailRequest.getTenantId(), engineInvokeResponseCall);
 
-            if (engineInvokeResponseCall != null) {
-                flowState.sync();
-            }
-
             return runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body().getJoinFlowUri();
         } catch (IOException e) {
             throw new RuntimeException("There was an unexpected error when re-joining the flow", e);
