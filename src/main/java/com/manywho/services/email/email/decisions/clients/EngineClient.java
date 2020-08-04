@@ -42,9 +42,7 @@ public class EngineClient {
             runClient.callback(authorizationEncoder.encode(emailRequest.getAuthenticatedWho()), emailRequest.getTenantId(),
                     engineValuesToSend(emailRequest, stringResponse)).execute();
 
-            FlowState flowState = new FlowState(runClient, emailRequest.getTenantId(), engineInvokeResponseCall);
-
-            return runClient.join(emailRequest.getTenantId().toString(), flowState.getState().toString()).execute().body().getJoinFlowUri();
+            return runClient.join(emailRequest.getTenantId().toString(), engineInvokeResponseCall.getStateId().toString()).execute().body().getJoinFlowUri();
         } catch (IOException e) {
             throw new RuntimeException("There was an unexpected error when re-joining the flow", e);
         }
