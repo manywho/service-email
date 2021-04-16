@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.simplejavamail</groupId>
             <artifactId>batch-module</artifactId>
-            <version>6.0.3</version>
+            <version>6.5.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
